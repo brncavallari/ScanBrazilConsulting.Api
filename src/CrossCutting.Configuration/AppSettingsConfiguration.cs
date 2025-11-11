@@ -8,10 +8,8 @@ public static class AppSettingsConfiguration
     {
         public static AppSettings Load()
         {
-            // Identifica o ambiente atual (Development, Production, etc.)
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
 
-            // Cria o ConfigurationBuilder para ler o arquivo JSON
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(AppContext.BaseDirectory)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -19,7 +17,6 @@ public static class AppSettingsConfiguration
                 .AddEnvironmentVariables()
                 .Build();
 
-            // Cria uma instância e faz o binding dos valores
             var settings = new AppSettings();
             configuration.Bind(settings);
 

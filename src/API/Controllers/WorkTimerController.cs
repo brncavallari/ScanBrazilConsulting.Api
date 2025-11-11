@@ -1,9 +1,4 @@
-﻿using Domain.Commands.v1.WorkTimer.Create;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using System.Net;
-
-namespace API.Controllers;
+﻿namespace API.Controllers;
 
 [ApiController]
 [Route("/api/v1/[controller]")]

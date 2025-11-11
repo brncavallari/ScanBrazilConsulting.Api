@@ -1,7 +1,4 @@
-﻿using Domain.Interfaces.v1.WorkTimer;
-using Infrastructure.Data.Mongo.Repositories.v1.WorkTimer;
-
-namespace API.Infrastructure.IoC;
+﻿namespace API.Infrastructure.IoC;
 public static class Bootstrapper
 {
     public static IServiceCollection Inject(this IServiceCollection services, IConfiguration configuration)
@@ -14,6 +11,21 @@ public static class Bootstrapper
         services.AddSingleton<IWorkTimerRepository>(sp =>
         {
             return new WorkTimerRepository("workTimers");
+        });
+
+        services.AddSingleton<IWorkTimerImportedRepository>(sp =>
+        {
+            return new WorkTimerImportedRepository("workTimersImported");
+        });
+
+        services.AddSingleton<IUserTimerRepository>(sp =>
+        {
+            return new UserTimerRepository("userTimers");
+        });
+
+        services.AddHttpClient<IMicrosoftServiceClient, MicrosoftServiceClient>(client =>
+        {
+            client.BaseAddress = new Uri("https://graph.microsoft.com/");
         });
 
         return services;
