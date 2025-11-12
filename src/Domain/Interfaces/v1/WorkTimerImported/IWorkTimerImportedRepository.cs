@@ -3,4 +3,5 @@
 public interface IWorkTimerImportedRepository
 {
     Task<bool> InsertIfNotExistsAsync(WorkTimerImportedInformation information);
+    Task<IReadOnlyList<WorkTimerImportedInformation>> GetAllWorkTimersImported();
 }

@@ -1,4 +1,5 @@
-﻿using Infrastructure.Data.Query.Queries.v1.GetUserTimerByEmail;
+﻿using Domain.Commands.v1.UserTimer.Update;
+using Infrastructure.Data.Query.Queries.v1.GetUserTimerByEmail;
 
 namespace API.Controllers;
 
@@ -30,5 +31,13 @@ public class UserTimerController(
         {
             return BadRequest(ex.Message);
         }
+    }
+
+    [HttpPut]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<IActionResult> Update([FromBody] UpdateUserTimerCommand command)
+    {
+        await _mediator.Send(command);
+        return Ok("deu bom");
     }
 }

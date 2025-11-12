@@ -1,5 +1,4 @@
-﻿using Domain.Entities.MongoDb.v1.WorkTimer;
-using Domain.Entities.MongoDb.v1.WorkTimerImported;
+﻿using Domain.Entities.MongoDb.v1.WorkTimerImported;
 using Domain.Interfaces.v1.WorkTimerImported;
 using Infrastructure.Data.Mongo.Repositories.v1.Base;
 using MongoDB.Driver;
@@ -25,9 +24,19 @@ public sealed class WorkTimerImportedRepository(string collectionName)
 
         if (workImportedInformation)
             return false;
-        
+
         await collection.InsertOneAsync(information);
         return true;
     }
 
+    public async Task<IReadOnlyList<WorkTimerImportedInformation>> GetAllWorkTimersImported()
+    {
+        var workTimerCollection = Database.GetCollection<WorkTimerImportedInformation>(_collection);
+
+        var workTimers = await workTimerCollection
+            .Find(Builders<WorkTimerImportedInformation>.Filter.Empty)
+            .ToListAsync();
+
+        return workTimers;
+    }
 }

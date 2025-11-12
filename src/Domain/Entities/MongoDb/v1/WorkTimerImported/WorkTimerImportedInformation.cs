@@ -1,7 +1,13 @@
-﻿namespace Domain.Entities.MongoDb.v1.WorkTimerImported;
+﻿using MongoDB.Bson;
+
+namespace Domain.Entities.MongoDb.v1.WorkTimerImported;
 
 public class WorkTimerImportedInformation
 {
+    [BsonId]
+    [BsonRepresentation(BsonType.ObjectId)]
+    public string Id { get; set; }
+
     [BsonElement("createdAt")]
     public DateTime CreatedAt { get; set; }
 
