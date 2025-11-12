@@ -2,9 +2,20 @@
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
 BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.CSharpLegacy));
 
-builder.Services.Inject(builder.Configuration);
+builder.Services.Inject();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -53,7 +64,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors("AllowAll");
+
 app.UseMiddleware<TokenValidationMiddleware>();
+
 app.UseAuthentication();
 app.UseAuthorization();
 

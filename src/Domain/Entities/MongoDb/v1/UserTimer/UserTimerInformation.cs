@@ -1,5 +1,4 @@
 ﻿namespace Domain.Entities.MongoDb.v1.UserTimer;
-
 public class UserTimerInformation
 {
     [BsonElement("name")]

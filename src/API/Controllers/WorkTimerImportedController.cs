@@ -2,15 +2,22 @@
 
 [ApiController]
 [Route("/api/v1/[controller]")]
-public class WorkTimerImportedController(IMediator mediator) : ControllerBase
+public class WorkTimerImportedController(
+    IMediator _mediator) : ControllerBase
 {
-    private readonly IMediator _mediator = mediator;
-
     [HttpPost("file/upload")]
     [DisableRequestSizeLimit]
-    public async Task<IActionResult> Upload([FromForm] UploadWorkTimerImportedCommand command)
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<IActionResult> Upload([FromForm] UploadWorkTimerImportedCommand uploadWorkTimerImportedCommand)
     {
-        await _mediator.Send(command);
-        return Ok("deu bom");
+		try
+		{
+            await _mediator.Send(uploadWorkTimerImportedCommand);
+            return Ok();
+        }
+		catch (Exception ex)
+		{
+            return BadRequest(ex.Message);
+		}
     }
 }

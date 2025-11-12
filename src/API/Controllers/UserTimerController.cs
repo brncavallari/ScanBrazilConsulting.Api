@@ -1,18 +1,34 @@
-﻿namespace API.Controllers
-{
-    [ApiController]
-    [Route("/api/v1/[controller]")]
-    [Authorize]
-    public class UserTimerController(IMediator mediator) : ControllerBase
-    {
-        private readonly IMediator _mediator = mediator;
+﻿using Infrastructure.Data.Query.Queries.v1.GetUserTimerByEmail;
 
-        [HttpPost]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Create([FromBody] UserTimerCommand command)
+namespace API.Controllers;
+
+[ApiController]
+[Route("/api/v1/[controller]")]
+[Authorize]
+public class UserTimerController(
+    IMediator _mediator) : ControllerBase
+{
+    [HttpPost]
+    [ProducesResponseType((int)HttpStatusCode.Created)]
+    public async Task<IActionResult> Create([FromBody] UserTimerCommand command)
+    {
+        await _mediator.Send(command);
+        return Ok("deu bom");
+    }
+
+
+    [HttpGet]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<IActionResult> Get([FromQuery] GetUserTimerByEmailQuery getWorkTimerByEmailQuery)
+    {
+        try
         {
-            await _mediator.Send(command);
-            return Ok("deu bom");
+            var getUserTimerByEmailQueryResponse = await _mediator.Send(getWorkTimerByEmailQuery);
+            return Ok(getUserTimerByEmailQueryResponse);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
         }
     }
 }

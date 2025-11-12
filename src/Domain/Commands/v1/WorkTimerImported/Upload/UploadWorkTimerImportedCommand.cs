@@ -1,6 +1,6 @@
 ﻿namespace Domain.Commands.v1.WorkTimerImported.Upload;
 
-public class UploadWorkTimerImportedCommand : IRequest<Unit>
+public sealed class UploadWorkTimerImportedCommand : IRequest<Unit>
 {
     public IFormFile File { get; set; }
     public DateTime CreatedAt { get; set; }
