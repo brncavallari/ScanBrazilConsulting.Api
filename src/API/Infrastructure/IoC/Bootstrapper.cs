@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Data.Query.Queries.v1.GetUserTimerByEmail;
+using System.Reflection;
 
 namespace API.Infrastructure.IoC;
 public static class Bootstrapper
@@ -14,17 +15,20 @@ public static class Bootstrapper
 
     public static void InjectMediator(IServiceCollection services)
     {
+        var assemblies = new Assembly[]
+        {
+            typeof(UploadWorkTimerImportedCommandHandler).Assembly,
+            typeof(GetUserTimerByEmailQueryHandler).Assembly
+        };
+
         services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssemblies(
-                AppDomain.CurrentDomain.GetAssemblies()
+                assemblies
             );
         });
-
-        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(
-            typeof(GetUserTimerByEmailQueryHandler).Assembly)
-        );
     }
+
     public static void InjectRepositories(IServiceCollection services)
     {
         services.AddSingleton<IWorkTimerRepository>(sp =>
