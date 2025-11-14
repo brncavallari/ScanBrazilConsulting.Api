@@ -23,7 +23,7 @@ public class WorkTimerImportedController(
         }
     }
 
-    [HttpGet()]
+    [HttpGet]
     [ProducesResponseType(typeof(List<GetAllWorkTimersImportedQueryResponse>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetAllWorkTimersImported()
     {

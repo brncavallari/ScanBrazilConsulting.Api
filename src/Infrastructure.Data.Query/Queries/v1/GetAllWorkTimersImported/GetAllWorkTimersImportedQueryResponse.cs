@@ -1,6 +1,4 @@
 ﻿using Domain.Entities.MongoDb.v1.WorkTimerImported;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace Infrastructure.Data.Query.Queries.v1.GetAllWorkTimersImported;
 
@@ -10,6 +8,7 @@ public class GetAllWorkTimersImportedQueryResponse
     public string FileName { get; set; }
     public string Year { get; set; }
     public string Month { get; set; }
+    public DateTime CreatedAt { get; set; }
 
     public static implicit operator GetAllWorkTimersImportedQueryResponse(WorkTimerImportedInformation information)
     {
@@ -20,7 +19,8 @@ public class GetAllWorkTimersImportedQueryResponse
             Id = information.Id,
             FileName = information.FileName,
             Year = information.Year,
-            Month = information.Month
+            Month = information.Month,
+            CreatedAt = information.CreatedAt,
         };
     }
 
@@ -28,6 +28,6 @@ public class GetAllWorkTimersImportedQueryResponse
     {
         if (entities is null || !entities.Any()) return [];
 
-        return entities.Select(info => (GetAllWorkTimersImportedQueryResponse)info).ToList();
+        return [.. entities.Select(info => (GetAllWorkTimersImportedQueryResponse)info)];
     }
 }
