@@ -1,15 +1,11 @@
-﻿using Domain.Commands.v1.UserTimer.Update;
-using Infrastructure.Data.Query.Queries.v1.GetUserTimerByEmail;
-using System.Reflection;
-
-namespace API.Infrastructure.IoC;
+﻿namespace API.Infrastructure.IoC;
 public static class Bootstrapper
 {
-    public static IServiceCollection Inject(this IServiceCollection services)
+    public static IServiceCollection Inject(this IServiceCollection services, IConfiguration configuration)
     {
         InjectMediator(services);
         InjectRepositories(services);
-        InjectServiceClients(services);
+        InjectServiceClients(services, configuration);
 
         return services;
     }
@@ -48,11 +44,16 @@ public static class Bootstrapper
             return new UserTimerRepository("userTimers");
         });
     }
-    public static void InjectServiceClients(IServiceCollection services)
+
+    public static void InjectServiceClients(IServiceCollection services, IConfiguration configuration)
     {
-        services.AddHttpClient<IMicrosoftServiceClient, MicrosoftServiceClient>(client =>
+        var microsoftSettings = configuration.GetSection("MicrosoftSettings").Get<MicrosoftSettings>();
+
+        services.AddHttpClient<IMicrosoftServiceClient, MicrosoftServiceClient>((sp, client) =>
         {
-            client.BaseAddress = new Uri("https://graph.microsoft.com/");
+            var msSettings = sp.GetRequiredService<IOptions<MicrosoftSettings>>().Value;
+
+            client.BaseAddress = new Uri(msSettings.Url);
         });
     }
 }

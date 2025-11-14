@@ -1,6 +1,4 @@
-﻿using API.Filter.v1;
-
-var builder = WebApplication.CreateBuilder(args);
+﻿var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
 {
@@ -15,7 +13,7 @@ builder.Services.AddCors(options =>
 
 BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.CSharpLegacy));
 
-builder.Services.Inject();
+builder.Services.Inject(builder.Configuration);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

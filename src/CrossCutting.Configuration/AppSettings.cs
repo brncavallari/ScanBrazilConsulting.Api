@@ -8,5 +8,8 @@ public sealed class AppSettings
 
     [JsonPropertyName("connectionSettings")]
     public ConnectionSettings ConnectionSettings { get; set; } = new();
+
+    [JsonPropertyName("microsoftSettings")]
+    public MicrosoftSettings MicrosoftSettings { get; set; }
 }
 

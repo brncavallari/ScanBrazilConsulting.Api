@@ -133,4 +133,14 @@ public static class WorkTimersBuilder
         return (name, email);
     }
     #endregion
+
+    #region MemoryStream
+    public static MemoryStream ToMemoryStream(IFormFile file)
+    {
+        var memoryStream = new MemoryStream();
+        file.CopyTo(memoryStream);
+        memoryStream.Position = 0;
+        return memoryStream;
+    }
+    #endregion
 }
