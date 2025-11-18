@@ -3,6 +3,7 @@ public sealed class WorkTimerInformation
 {
     [BsonElement("id")]
     public string ID { get; set; }
+
     [BsonElement("fileName")]
     public string FileName { get; set; }
 

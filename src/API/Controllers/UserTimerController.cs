@@ -1,5 +1,4 @@
-﻿using Domain.Commands.v1.UserTimer.Update;
-using Infrastructure.Data.Query.Queries.v1.GetUserTimerByEmail;
+﻿using Infrastructure.Data.Query.Queries.v1.GetAllUserInformation;
 
 namespace API.Controllers;
 
@@ -17,10 +16,9 @@ public class UserTimerController(
         return Ok("deu bom");
     }
 
-
-    [HttpGet]
+    [HttpGet("byEmail")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
-    public async Task<IActionResult> Get([FromQuery] GetUserTimerByEmailQuery getWorkTimerByEmailQuery)
+    public async Task<IActionResult> GetByEmail([FromQuery] GetUserTimerByEmailQuery getWorkTimerByEmailQuery)
     {
         try
         {
@@ -40,4 +38,20 @@ public class UserTimerController(
         await _mediator.Send(command);
         return Ok("deu bom");
     }
+
+    [HttpGet]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<IActionResult> GetAll([FromQuery] GetAllUserInformationQuery getAllUsers)
+    {
+        try
+        {
+            var getAllUsersResponse = await _mediator.Send(getAllUsers);
+            return Ok(getAllUsersResponse);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
 }

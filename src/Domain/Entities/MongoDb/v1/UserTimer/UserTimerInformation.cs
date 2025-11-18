@@ -1,10 +1,6 @@
 ﻿namespace Domain.Entities.MongoDb.v1.UserTimer;
 public sealed class UserTimerInformation
 {
-    [BsonId]
-    [BsonElement("id")]
-    public string Id { get; set; }
-
     [BsonElement("name")]
     public string Name { get; set; }
 
@@ -13,6 +9,7 @@ public sealed class UserTimerInformation
 
     [BsonElement("email")]
     public string Email { get; set; }
+
     [BsonElement("remark")]
     public IList<Remark> Remarks { get; set; }
 

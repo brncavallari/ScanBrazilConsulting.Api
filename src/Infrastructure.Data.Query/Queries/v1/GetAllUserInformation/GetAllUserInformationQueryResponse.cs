@@ -1,16 +1,17 @@
 ﻿using Domain.Entities.MongoDb.v1.UserTimer;
 
-namespace Infrastructure.Data.Query.Queries.v1.GetUserTimerByEmail;
-public class GetUserTimerByEmailQueryResponse
+namespace Infrastructure.Data.Query.Queries.v1.GetAllUserInformation;
+
+public class GetAllUserInformationQueryResponse
 {
     public string Name { get; set; }
     public string Email { get; set; }
     public double Hour { get; set; }
     public List<Remark> Remarks { get; set; }
 
-    public static implicit operator GetUserTimerByEmailQueryResponse(UserTimerInformation userTimerInformation)
+    public static implicit operator GetAllUserInformationQueryResponse(UserTimerInformation userTimerInformation)
     {
-        if (userTimerInformation is null) return new GetUserTimerByEmailQueryResponse();
+        if (userTimerInformation is null) return new GetAllUserInformationQueryResponse();
 
         return new()
         {

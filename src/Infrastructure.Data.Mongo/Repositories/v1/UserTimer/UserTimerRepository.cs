@@ -22,7 +22,20 @@ public class UserTimerRepository(
 
         var filter = Builders<UserTimerInformation>.Filter.Eq(x => x.Email, email);
 
-        var result = await collection.Find(filter).FirstOrDefaultAsync();
+        var projection = Builders<UserTimerInformation>.Projection
+            .Slice(x => x.Remarks, 5)
+            .Include(x => x.Remarks)
+            .Include(x => x.Email)
+            .Include(x => x.Name)
+            .Include(x => x.Hour);
+
+        var result = await collection
+            .Find(filter)
+            .Project<UserTimerInformation>(projection)
+            .FirstOrDefaultAsync();
+
+        if (result != null)
+            result.Remarks = [.. result.Remarks.OrderByDescending(r => r.UpdateAt).Take(5)];
 
         return result;
     }
@@ -35,9 +48,20 @@ public class UserTimerRepository(
 
         var updateSet = Builders<UserTimerInformation>.Update
             .Set(x => x.Hour, userTimerInformation.Hour)
-            .Set(x=> x.Remarks, userTimerInformation.Remarks
+            .Set(x => x.Remarks, userTimerInformation.Remarks
         );
 
         await collection.UpdateOneAsync(filter, updateSet);
+    }
+
+    public async Task<IReadOnlyList<UserTimerInformation>> GetAllUserInformation()
+    {
+        var collection = Database.GetCollection<UserTimerInformation>(_collection);
+
+        var userTimers = await collection
+            .Find(Builders<UserTimerInformation>.Filter.Empty)
+            .ToListAsync();
+
+        return userTimers;
     }
 }
