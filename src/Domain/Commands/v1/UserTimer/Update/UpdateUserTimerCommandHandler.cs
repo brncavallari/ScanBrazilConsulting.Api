@@ -1,19 +1,23 @@
 ﻿namespace Domain.Commands.v1.UserTimer.Update;
-
-public class UpdateUserTimerCommandHandler(
+public sealed class UpdateUserTimerCommandHandler(
     IUserTimerRepository _userTimerRepository
     ) : IRequestHandler<UpdateUserTimerCommand, Unit>
 {
-    public async Task<Unit> Handle(UpdateUserTimerCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(UpdateUserTimerCommand updateUserTimerCommand, CancellationToken cancellationToken)
     {
         try
         {
-            var userTimer = await _userTimerRepository.FindEmailAsync(request.Email);
+            var userTimer = await _userTimerRepository.FindEmailAsync(updateUserTimerCommand.Email);
 
             if (userTimer is not null)
             {
-                userTimer.Hour += request.Hour;
-                await _userTimerRepository.UpsertUserTimerAsync(userTimer);
+                userTimer.SetUserTimer(
+                    updateUserTimerCommand.Hour,
+                    updateUserTimerCommand.Remark
+                );
+
+                await _userTimerRepository.UpsertUserTimerAsync(
+                    userTimer);
             }
         }
         catch (Exception ex)

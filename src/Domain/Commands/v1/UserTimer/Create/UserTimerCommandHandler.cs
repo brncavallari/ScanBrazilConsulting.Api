@@ -1,5 +1,5 @@
 ﻿namespace Domain.Commands.v1.UserTimer.Create;
-public class UserTimerCommandHandler(
+public sealed class UserTimerCommandHandler(
     IUserTimerRepository _userTimerRepository,
     IWorkTimerRepository _workTimerRepository) : IRequestHandler<UserTimerCommand, Unit>
 {

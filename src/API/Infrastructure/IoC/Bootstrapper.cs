@@ -47,7 +47,9 @@ public static class Bootstrapper
 
     public static void InjectServiceClients(IServiceCollection services, IConfiguration configuration)
     {
-        var microsoftSettings = configuration.GetSection("MicrosoftSettings").Get<MicrosoftSettings>();
+        services.Configure<MicrosoftSettings>(
+            configuration.GetSection("MicrosoftSettings")
+        );
 
         services.AddHttpClient<IMicrosoftServiceClient, MicrosoftServiceClient>((sp, client) =>
         {

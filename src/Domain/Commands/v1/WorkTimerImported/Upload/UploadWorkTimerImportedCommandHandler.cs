@@ -1,5 +1,4 @@
 ﻿namespace Domain.Commands.v1.WorkTimerImported.Upload;
-
 public class UploadWorkTimerImportedCommandHandler(
     IWorkTimerImportedRepository _workTimerImportedRepository,
     IWorkTimerRepository _workTimerRepository,
@@ -13,7 +12,7 @@ public class UploadWorkTimerImportedCommandHandler(
             #region WorkTimerImported
             var workTimerImported = new WorkTimerImportedInformation
             {
-                CreatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
                 FileName = request.FileName,
                 Month = request.Month,
                 Year = request.Year,
@@ -32,7 +31,7 @@ public class UploadWorkTimerImportedCommandHandler(
             foreach (var record in records)
             {
                 record.FileName = fileName;
-                record.CreatedAt = DateTime.Now;
+                record.CreatedAt = DateTime.UtcNow;
 
                 var taskExists = await _workTimerRepository.ExistTaskAsync(record.ID);
 
@@ -53,13 +52,13 @@ public class UploadWorkTimerImportedCommandHandler(
                 if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(email))
                     continue;
 
-                var valorASomar = WorkTimersBuilder.CalculateExtraHours(user);
+                var hour = WorkTimersBuilder.CalculateExtraHours(user);
 
                 var userTimer = await _userTimerRepository.FindEmailAsync(email);
 
                 if (userTimer is not null)
                 {
-                    userTimer.Hour += valorASomar;
+                    userTimer.Hour += hour;
                     await _userTimerRepository.UpsertUserTimerAsync(userTimer);
                 }
                 else
@@ -67,9 +66,8 @@ public class UploadWorkTimerImportedCommandHandler(
                     await _userTimerRepository.InsertUserTimerAsync(new UserTimerInformation
                     {
                         Email = email,
-                        Hour = valorASomar,
-                        Name = name,
-                        UpdateAt = DateTime.Now
+                        Hour = hour,
+                        Name = name
                     });
                 }
             }

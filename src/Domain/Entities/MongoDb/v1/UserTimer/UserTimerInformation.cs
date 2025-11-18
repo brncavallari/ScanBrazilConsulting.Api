@@ -1,6 +1,10 @@
 ﻿namespace Domain.Entities.MongoDb.v1.UserTimer;
-public class UserTimerInformation
+public sealed class UserTimerInformation
 {
+    [BsonId]
+    [BsonElement("id")]
+    public string Id { get; set; }
+
     [BsonElement("name")]
     public string Name { get; set; }
 
@@ -9,7 +13,29 @@ public class UserTimerInformation
 
     [BsonElement("email")]
     public string Email { get; set; }
+    [BsonElement("remark")]
+    public IList<Remark> Remarks { get; set; }
 
+    public void SetUserTimer(
+        double hour,
+        string description)
+    {
+        Hour += hour;
+        Remark remark = new() { Value = hour, Description = description, UpdateAt = DateTime.UtcNow };
+
+        if (Remarks is null)
+            Remarks = [remark];
+        else
+            Remarks.Add(remark);
+    }
+}
+
+public sealed class Remark
+{
+    [BsonElement("description")]
+    public string Description { get; set; }
+    [BsonElement("value")]
+    public double Value { get; set; }
     [BsonElement("updateAt")]
     public DateTime UpdateAt { get; set; }
 }

@@ -16,8 +16,7 @@ public class GetUserTimerByEmailQueryResponse
         {
             Name = userTimerInformation.Name,
             Email = userTimerInformation.Email,
-            Hour = userTimerInformation.Hour,
-            UpdateAt = userTimerInformation.UpdateAt,
+            Hour = userTimerInformation.Hour
         };
     }
 }

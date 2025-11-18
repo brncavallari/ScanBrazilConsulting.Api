@@ -1,8 +1,8 @@
-﻿using System.Text.Json.Serialization;
+﻿using Infrastructure.Data.Service.Services.Base;
+using System.Text.Json.Serialization;
 
 namespace Infrastructure.Data.Service.Services.Microsoft;
-
-public class MicrosoftServiceResponse
+public sealed class MicrosoftServiceResponse : ResponseBase
 {
     [JsonPropertyName("mail")]
     public string Email { get; set; }

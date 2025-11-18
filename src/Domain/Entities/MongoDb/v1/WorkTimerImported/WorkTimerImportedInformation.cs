@@ -1,8 +1,7 @@
 ﻿using MongoDB.Bson;
 
 namespace Domain.Entities.MongoDb.v1.WorkTimerImported;
-
-public class WorkTimerImportedInformation
+public sealed class WorkTimerImportedInformation
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]

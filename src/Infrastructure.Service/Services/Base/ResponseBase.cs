@@ -1,33 +1,32 @@
 ﻿using System.Net;
 using System.Text.Json.Serialization;
 
-namespace Infrastructure.Data.Service.Services.Base
+namespace Infrastructure.Data.Service.Services.Base;
+
+public class ResponseBase
 {
-    public class ResponseBase
+    [JsonIgnore]
+    public HttpStatusCode HttpStatusCode { get; set; }
+
+    [JsonPropertyName("notifications")]
+    public object Notifications { get; set; }
+
+    [JsonPropertyName("success")]
+    public bool Success { get; set; }
+
+    [JsonPropertyName("message")]
+    public string Message { get; set; }
+
+    public string GetNotificationMessage()
     {
-        [JsonIgnore]
-        public HttpStatusCode HttpStatusCode { get; set; }
-
-        [JsonPropertyName("notifications")]
-        public object Notifications { get; set; }
-
-        [JsonPropertyName("success")]
-        public bool Success { get; set; }
-
-        [JsonPropertyName("message")]
-        public string Message { get; set; }
-
-        public string GetNotificationMessage()
+        try
         {
-            try
-            {
-                var response = Notifications != null ? Notifications.ToString() : "";
-                return response;
-            }
-            catch
-            {
-                return "Erro ao processar a solicitação!";
-            }
+            var response = Notifications != null ? Notifications.ToString() : "";
+            return response;
+        }
+        catch
+        {
+            return "Erro ao processar a solicitação!";
         }
     }
 }

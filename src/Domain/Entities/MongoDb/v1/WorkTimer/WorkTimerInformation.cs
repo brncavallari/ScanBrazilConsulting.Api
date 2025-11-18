@@ -1,6 +1,8 @@
 ﻿namespace Domain.Entities.MongoDb.v1.WorkTimer;
-public class WorkTimerInformation
+public sealed class WorkTimerInformation
 {
+    [BsonElement("id")]
+    public string ID { get; set; }
     [BsonElement("fileName")]
     public string FileName { get; set; }
 
@@ -15,10 +17,6 @@ public class WorkTimerInformation
 
     [BsonElement("fabrica")]
     public string Fabrica { get; set; }
-
-    [BsonElement("id")]
-    public string ID { get; set; }
-
     [BsonElement("title")]
     public string Title { get; set; }
 

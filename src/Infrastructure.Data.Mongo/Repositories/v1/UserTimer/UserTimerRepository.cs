@@ -27,15 +27,16 @@ public class UserTimerRepository(
         return result;
     }
 
-    public async Task UpsertUserTimerAsync(UserTimerInformation workInformation)
+    public async Task UpsertUserTimerAsync(UserTimerInformation userTimerInformation)
     {
         var collection = Database.GetCollection<UserTimerInformation>(_collection);
 
-        var filter = Builders<UserTimerInformation>.Filter.Eq(x => x.Email, workInformation.Email);
+        var filter = Builders<UserTimerInformation>.Filter.Eq(x => x.Email, userTimerInformation.Email);
 
         var updateSet = Builders<UserTimerInformation>.Update
-            .Set(x => x.Hour, workInformation.Hour)
-            .Set(x => x.UpdateAt, DateTime.Now);
+            .Set(x => x.Hour, userTimerInformation.Hour)
+            .Set(x=> x.Remarks, userTimerInformation.Remarks
+        );
 
         await collection.UpdateOneAsync(filter, updateSet);
     }

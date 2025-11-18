@@ -1,6 +1,6 @@
 ﻿namespace CrossCutting.Configuration.AppModels;
 
-public class MicrosoftSettings
+public sealed class MicrosoftSettings
 {
     public string Url { get; set; }
 }
