@@ -21,7 +21,8 @@ public class GetUserTimerByEmailQueryResponse
             {
                 Description = r.Description,
                 Value = r.Value,
-                UpdateAt = r.UpdateAt
+                UpdateAt = r.UpdateAt,
+                UserName = r.UserName
             }).ToList()
         };
     }
@@ -30,6 +31,7 @@ public class GetUserTimerByEmailQueryResponse
 public class Remark
 {
     public string Description { get; set; }
+    public string UserName { get; set; }
     public double Value { get; set; }
     public DateTime UpdateAt { get; set; }
 }

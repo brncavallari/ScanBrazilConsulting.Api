@@ -34,7 +34,7 @@ public class UserTimerRepository(
             .Project<UserTimerInformation>(projection)
             .FirstOrDefaultAsync();
 
-        if (result != null)
+        if (result?.Remarks != null)
             result.Remarks = [.. result.Remarks.OrderByDescending(r => r.UpdateAt).Take(5)];
 
         return result;

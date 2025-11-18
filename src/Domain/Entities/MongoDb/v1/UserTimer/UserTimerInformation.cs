@@ -15,10 +15,11 @@ public sealed class UserTimerInformation
 
     public void SetUserTimer(
         double hour,
-        string description)
+        string description,
+        string userName)
     {
         Hour += hour;
-        Remark remark = new() { Value = hour, Description = description, UpdateAt = DateTime.UtcNow };
+        Remark remark = new() { Value = hour, Description = description, UpdateAt = DateTime.UtcNow, UserName = userName };
 
         if (Remarks is null)
             Remarks = [remark];
@@ -33,6 +34,8 @@ public sealed class Remark
     public string Description { get; set; }
     [BsonElement("value")]
     public double Value { get; set; }
+    [BsonElement("userName")]
+    public string UserName { get; set; }
     [BsonElement("updateAt")]
     public DateTime UpdateAt { get; set; }
 }

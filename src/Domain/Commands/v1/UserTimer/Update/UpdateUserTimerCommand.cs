@@ -2,6 +2,7 @@
 public sealed class UpdateUserTimerCommand : IRequest<Unit>
 {
     public string Email { get; set; }
+    public string UserName { get; set; }
     public double Hour { get; set; }
     public string Remark { get; set; }
 }

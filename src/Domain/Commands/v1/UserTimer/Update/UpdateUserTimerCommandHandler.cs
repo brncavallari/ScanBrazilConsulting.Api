@@ -13,7 +13,8 @@ public sealed class UpdateUserTimerCommandHandler(
             {
                 userTimer.SetUserTimer(
                     updateUserTimerCommand.Hour,
-                    updateUserTimerCommand.Remark
+                    updateUserTimerCommand.Remark,
+                    updateUserTimerCommand.UserName
                 );
 
                 await _userTimerRepository.UpsertUserTimerAsync(

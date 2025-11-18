@@ -1,10 +1,8 @@
-﻿using Infrastructure.Data.Query.Queries.v1.GetAllUserInformation;
-
-namespace API.Controllers;
+﻿namespace API.Controllers;
 
 [ApiController]
 [Route("/api/v1/[controller]")]
-[Authorize]
+//[Authorize]
 public class UserTimerController(
     IMediator _mediator) : ControllerBase
 {
@@ -53,5 +51,4 @@ public class UserTimerController(
             return BadRequest(ex.Message);
         }
     }
-
 }

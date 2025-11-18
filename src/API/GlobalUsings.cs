@@ -27,3 +27,8 @@ global using System.IdentityModel.Tokens.Jwt;
 global using System.Net;
 global using System.Reflection;
 global using System.Security.Claims;
+global using Domain.Commands.v1.WorkTimerImported.Delete;
+global using Infrastructure.Data.Query.Queries.v1.GetAllWorkTimersImported;
+global using Infrastructure.Data.Query.Queries.v1.GetAllUserInformation;
+
+

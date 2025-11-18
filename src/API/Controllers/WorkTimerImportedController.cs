@@ -1,6 +1,4 @@
-﻿using Infrastructure.Data.Query.Queries.v1.GetAllWorkTimersImported;
-
-namespace API.Controllers;
+﻿namespace API.Controllers;
 
 [ApiController]
 [Route("/api/v1/[controller]")]
@@ -31,6 +29,24 @@ public class WorkTimerImportedController(
         {
             var result = await _mediator.Send(new GetAllWorkTimersImportedQuery());
             return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpDelete("{id}")]
+    [ProducesResponseType(typeof(void), (int)HttpStatusCode.NoContent)]
+    [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> DeleteWorkTimerImported(string id)
+    {
+        try
+        {
+            var command = new DeleteWorkTimerImportedCommand { Id = id };
+            var result = await _mediator.Send(command);
+
+            return NoContent();
         }
         catch (Exception ex)
         {

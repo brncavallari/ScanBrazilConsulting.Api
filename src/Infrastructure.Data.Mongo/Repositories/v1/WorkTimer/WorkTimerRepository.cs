@@ -40,4 +40,15 @@ public sealed class WorkTimerRepository(
 
         return true;
     }
+
+    public async Task<bool> DeleteAllTaskByFileNameAsync(string fileName)
+    {
+        var collection = Database.GetCollection<WorkTimerInformation>(_collection);
+
+        var filter = Builders<WorkTimerInformation>.Filter.Eq(x => x.FileName, fileName);
+
+        var result = await collection.DeleteManyAsync(filter);
+
+        return result.DeletedCount > 0;
+    }
 }
