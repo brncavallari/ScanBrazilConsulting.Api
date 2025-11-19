@@ -16,11 +16,15 @@ public class UserTimerController(
 
     [HttpGet("byEmail")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetByEmail([FromQuery] GetUserTimerByEmailQuery getWorkTimerByEmailQuery)
+    public async Task<IActionResult> GetByEmail()
     {
         try
         {
-            var getUserTimerByEmailQueryResponse = await _mediator.Send(getWorkTimerByEmailQuery);
+            var token = Request.Headers.Authorization.ToString();
+
+            if (token is null) return Unauthorized();
+
+            var getUserTimerByEmailQueryResponse = await _mediator.Send(new GetUserTimerByEmailQuery(token));
             return Ok(getUserTimerByEmailQueryResponse);
         }
         catch (Exception ex)

@@ -4,6 +4,7 @@ namespace Infrastructure.Data.Query.Queries.v1.GetAllUserInformation;
 
 public class GetAllUserInformationQueryResponse
 {
+    public string Id { get; set; }
     public string Name { get; set; }
     public string Email { get; set; }
     public double Hour { get; set; }
@@ -15,6 +16,7 @@ public class GetAllUserInformationQueryResponse
 
         return new()
         {
+            Id = userTimerInformation.Id.ToString(),
             Name = userTimerInformation.Name,
             Email = userTimerInformation.Email,
             Hour = userTimerInformation.Hour,

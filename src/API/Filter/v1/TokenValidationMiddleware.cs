@@ -1,6 +1,8 @@
 ﻿namespace API.Filter.v1
 {
-    public class TokenValidationMiddleware(RequestDelegate next, IMicrosoftServiceClient microsoftServiceClient)
+    public class TokenValidationMiddleware(
+        RequestDelegate next,
+        IMicrosoftServiceClient microsoftServiceClient)
     {
         private readonly RequestDelegate _next = next;
         private readonly IMicrosoftServiceClient _microsoftServiceClient = microsoftServiceClient;
@@ -21,7 +23,7 @@
                     if (handler.CanReadToken(token))
                     {
                         var userInfo = await _microsoftServiceClient.GetUserInformationAsync(
-                            new MicrosoftServiceRequest { Token = token });
+                            new MicrosoftServiceRequest(token));
 
                         var identity = new ClaimsIdentity(JwtBearerDefaults.AuthenticationScheme);
 
