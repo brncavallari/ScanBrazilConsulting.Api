@@ -1,5 +1,8 @@
-﻿namespace Domain.Commands.v1.WorkTimerImported.Delete;
+﻿using Domain.Interfaces.v1.Repositories.UserTimer;
+using Domain.Interfaces.v1.Repositories.WorkTimer;
+using Domain.Interfaces.v1.Repositories.WorkTimerImported;
 
+namespace Domain.Commands.v1.WorkTimerImported.Delete;
 public sealed class DeleteWorkTimerImportedCommandHandler(
         IWorkTimerImportedRepository _workTimerImportedRepository,
         IWorkTimerRepository _workTimerRepository,
@@ -56,9 +59,9 @@ public sealed class DeleteWorkTimerImportedCommandHandler(
         {
             throw new ApplicationException($"File not found: {ex.Message}", ex);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw new Exception(ex.Message);
+            throw;
         }
     }
 }

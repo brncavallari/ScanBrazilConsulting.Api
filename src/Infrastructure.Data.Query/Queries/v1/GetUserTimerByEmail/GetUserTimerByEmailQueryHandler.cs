@@ -1,4 +1,4 @@
-﻿using Domain.Interfaces.v1.UserTimer;
+﻿using Domain.Interfaces.v1.Repositories.UserTimer;
 using Infrastructure.Data.Service.Interfaces.v1.Microsoft;
 using Infrastructure.Data.Service.Services.Microsoft;
 using MediatR;

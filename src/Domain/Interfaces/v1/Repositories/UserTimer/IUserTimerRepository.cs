@@ -1,4 +1,4 @@
-﻿namespace Domain.Interfaces.v1.UserTimer;
+﻿namespace Domain.Interfaces.v1.Repositories.UserTimer;
 
 public interface IUserTimerRepository
 {

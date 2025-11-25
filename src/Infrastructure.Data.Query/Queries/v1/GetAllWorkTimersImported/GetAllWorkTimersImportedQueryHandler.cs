@@ -1,4 +1,4 @@
-﻿using Domain.Interfaces.v1.WorkTimerImported;
+﻿using Domain.Interfaces.v1.Repositories.WorkTimerImported;
 using MediatR;
 
 namespace Infrastructure.Data.Query.Queries.v1.GetAllWorkTimersImported;

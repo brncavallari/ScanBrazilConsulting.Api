@@ -1,4 +1,4 @@
-﻿namespace Domain.Interfaces.v1.WorkTimer;
+﻿namespace Domain.Interfaces.v1.Repositories.WorkTimer;
 public interface IWorkTimerRepository
 {
     Task AddAsync(WorkTimerInformation workInformation);

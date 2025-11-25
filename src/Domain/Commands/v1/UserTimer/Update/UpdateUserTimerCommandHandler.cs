@@ -1,4 +1,5 @@
 ﻿using Domain.Interfaces.v1.Context;
+using Domain.Interfaces.v1.Repositories.UserTimer;
 
 namespace Domain.Commands.v1.UserTimer.Update;
 public sealed class UpdateUserTimerCommandHandler(
@@ -23,9 +24,9 @@ public sealed class UpdateUserTimerCommandHandler(
                     userTimer);
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw new Exception(ex.Message);
+            throw;
         }
 
         return Unit.Value;

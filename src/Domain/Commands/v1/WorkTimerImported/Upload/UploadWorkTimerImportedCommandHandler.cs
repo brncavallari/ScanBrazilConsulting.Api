@@ -1,5 +1,9 @@
-﻿namespace Domain.Commands.v1.WorkTimerImported.Upload;
-public class UploadWorkTimerImportedCommandHandler(
+﻿using Domain.Interfaces.v1.Repositories.UserTimer;
+using Domain.Interfaces.v1.Repositories.WorkTimer;
+using Domain.Interfaces.v1.Repositories.WorkTimerImported;
+
+namespace Domain.Commands.v1.WorkTimerImported.Upload;
+public sealed class UploadWorkTimerImportedCommandHandler(
     IWorkTimerImportedRepository _workTimerImportedRepository,
     IWorkTimerRepository _workTimerRepository,
     IUserTimerRepository _userTimerRepository
@@ -73,9 +77,9 @@ public class UploadWorkTimerImportedCommandHandler(
             }
             #endregion
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw new Exception(ex.Message);
+            throw;
         }
 
         return Unit.Value;

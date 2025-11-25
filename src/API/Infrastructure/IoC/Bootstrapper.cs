@@ -1,5 +1,10 @@
 ﻿using API.Context.v1;
 using Domain.Interfaces.v1.Context;
+using Domain.Interfaces.v1.Repositories.TimeOff;
+using Domain.Interfaces.v1.Repositories.UserTimer;
+using Domain.Interfaces.v1.Repositories.WorkTimer;
+using Domain.Interfaces.v1.Repositories.WorkTimerImported;
+using Infrastructure.Data.Mongo.Repositories.v1.TimeOff;
 
 namespace API.Infrastructure.IoC;
 public static class Bootstrapper
@@ -45,6 +50,11 @@ public static class Bootstrapper
         services.AddSingleton<IUserTimerRepository>(sp =>
         {
             return new UserTimerRepository("userTimers");
+        });
+
+        services.AddSingleton<ITimeOffRepository>(sp =>
+        {
+            return new TimeOffRepository("timeOffs");
         });
     }
 

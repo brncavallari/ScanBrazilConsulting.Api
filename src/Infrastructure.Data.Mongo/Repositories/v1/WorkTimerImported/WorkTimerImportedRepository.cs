@@ -1,6 +1,6 @@
 ﻿using Domain.Entities.MongoDb.v1.WorkTimer;
 using Domain.Entities.MongoDb.v1.WorkTimerImported;
-using Domain.Interfaces.v1.WorkTimerImported;
+using Domain.Interfaces.v1.Repositories.WorkTimerImported;
 using Infrastructure.Data.Mongo.Repositories.v1.Base;
 using MongoDB.Driver;
 

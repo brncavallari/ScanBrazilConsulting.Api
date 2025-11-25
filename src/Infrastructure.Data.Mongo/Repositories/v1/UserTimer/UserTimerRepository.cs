@@ -1,5 +1,5 @@
 ﻿using Domain.Entities.MongoDb.v1.UserTimer;
-using Domain.Interfaces.v1.UserTimer;
+using Domain.Interfaces.v1.Repositories.UserTimer;
 using Infrastructure.Data.Mongo.Repositories.v1.Base;
 using MongoDB.Driver;
 

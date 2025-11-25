@@ -6,14 +6,6 @@
 public class UserTimerController(
     IMediator _mediator) : ControllerBase
 {
-    [HttpPost]
-    [ProducesResponseType((int)HttpStatusCode.Created)]
-    public async Task<IActionResult> Create([FromBody] UserTimerCommand command)
-    {
-        await _mediator.Send(command);
-        return Ok("deu bom");
-    }
-
     [HttpGet("byEmail")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetByEmail()
@@ -35,19 +27,19 @@ public class UserTimerController(
 
     [HttpPut]
     [ProducesResponseType((int)HttpStatusCode.OK)]
-    public async Task<IActionResult> Update([FromBody] UpdateUserTimerCommand command)
+    public async Task<IActionResult> Update([FromBody] UpdateUserTimerCommand updateUserTimerCommand)
     {
-        await _mediator.Send(command);
-        return Ok("deu bom");
+        await _mediator.Send(updateUserTimerCommand);
+        return Ok();
     }
 
     [HttpGet]
     [ProducesResponseType((int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetAll([FromQuery] GetAllUserInformationQuery getAllUsers)
+    public async Task<IActionResult> GetAll([FromQuery] GetAllUserInformationQuery getAllUserInformationQuery)
     {
         try
         {
-            var getAllUsersResponse = await _mediator.Send(getAllUsers);
+            var getAllUsersResponse = await _mediator.Send(getAllUserInformationQuery);
             return Ok(getAllUsersResponse);
         }
         catch (Exception ex)

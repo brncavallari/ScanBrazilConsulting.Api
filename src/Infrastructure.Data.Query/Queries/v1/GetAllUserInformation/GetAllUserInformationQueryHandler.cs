@@ -1,4 +1,4 @@
-﻿using Domain.Interfaces.v1.UserTimer;
+﻿using Domain.Interfaces.v1.Repositories.UserTimer;
 using MediatR;
 
 namespace Infrastructure.Data.Query.Queries.v1.GetAllUserInformation;

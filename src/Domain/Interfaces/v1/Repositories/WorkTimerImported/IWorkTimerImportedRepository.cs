@@ -1,4 +1,4 @@
-﻿namespace Domain.Interfaces.v1.WorkTimerImported;
+﻿namespace Domain.Interfaces.v1.Repositories.WorkTimerImported;
 
 public interface IWorkTimerImportedRepository
 {
