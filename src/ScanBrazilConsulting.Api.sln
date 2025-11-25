@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossCutting.Configuration"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{CBFA08EA-AECE-205F-7B85-326FD0B81BAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Data.Service", "Infrastructure.Service\Infrastructure.Data.Service.csproj", "{BACE3458-115B-4D5F-B1CC-91F23264732E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Service", "Infrastructure.Service\Infrastructure.Service.csproj", "{BACE3458-115B-4D5F-B1CC-91F23264732E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Data.Query", "Infrastructure.Data.Query\Infrastructure.Data.Query.csproj", "{6A68CF83-8CF1-4117-A0CA-7570BE27C8F5}"
 EndProject

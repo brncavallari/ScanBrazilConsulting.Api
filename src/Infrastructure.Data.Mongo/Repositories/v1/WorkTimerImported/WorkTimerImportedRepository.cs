@@ -1,16 +1,13 @@
-﻿using Domain.Entities.MongoDb.v1.WorkTimer;
-using Domain.Entities.MongoDb.v1.WorkTimerImported;
+﻿using Domain.Entities.MongoDb.v1.WorkTimerImported;
 using Domain.Interfaces.v1.Repositories.WorkTimerImported;
 using Infrastructure.Data.Mongo.Repositories.v1.Base;
 using MongoDB.Driver;
 
 namespace Infrastructure.Data.Mongo.Repositories.v1.WorkTimerImported;
-
 public sealed class WorkTimerImportedRepository(string collectionName)
         : MongoDbBaseRepository<WorkTimerImportedInformation>(collectionName), IWorkTimerImportedRepository
 {
     private readonly string _collection = collectionName;
-
     public async Task<bool> InsertIfNotExistsAsync(WorkTimerImportedInformation information)
     {
         var collection = Database.GetCollection<WorkTimerImportedInformation>(_collection);
@@ -29,8 +26,7 @@ public sealed class WorkTimerImportedRepository(string collectionName)
         await collection.InsertOneAsync(information);
         return true;
     }
-
-    public async Task<IReadOnlyList<WorkTimerImportedInformation>> GetAllWorkTimersImported()
+    public async Task<IReadOnlyList<WorkTimerImportedInformation>> FindAllWorkTimersImportedAsync()
     {
         var workTimerCollection = Database.GetCollection<WorkTimerImportedInformation>(_collection);
 
@@ -40,7 +36,6 @@ public sealed class WorkTimerImportedRepository(string collectionName)
 
         return workTimers;
     }
-
     public async Task<WorkTimerImportedInformation> FindByIdAsync(string id)
     {
         var workTimerCollection = Database.GetCollection<WorkTimerImportedInformation>(_collection);
@@ -53,7 +48,6 @@ public sealed class WorkTimerImportedRepository(string collectionName)
 
         return workTimer;
     }
-
     public async Task<bool> DeleteTaskByFileNameAsync(string fileName)
     {
         var collection = Database.GetCollection<WorkTimerImportedInformation>(_collection);

@@ -8,15 +8,12 @@ public sealed class WorkTimerRepository(
     string collectionName) : MongoDbBaseRepository<WorkTimerInformation>(collectionName), IWorkTimerRepository
 {
     private readonly string _collection = collectionName;
-
-    public async Task AddAsync(
-        WorkTimerInformation workInformation)
+    public async Task AddAsync(WorkTimerInformation workInformation)
     {
         var collection = Database.GetCollection<WorkTimerInformation>(_collection);
         await collection.InsertOneAsync(workInformation);
     }
-
-    public async Task<List<WorkTimerInformation>> GetByFileNameAsync(string fileName)
+    public async Task<List<WorkTimerInformation>> FindByFileNameAsync(string fileName)
     {
         var collection = Database.GetCollection<WorkTimerInformation>(_collection);
 
@@ -26,7 +23,6 @@ public sealed class WorkTimerRepository(
 
         return result;
     }
-
     public async Task<bool> ExistTaskAsync(string id)
     {
         var collection = Database.GetCollection<WorkTimerInformation>(_collection);
@@ -40,7 +36,6 @@ public sealed class WorkTimerRepository(
 
         return true;
     }
-
     public async Task<bool> DeleteAllTaskByFileNameAsync(string fileName)
     {
         var collection = Database.GetCollection<WorkTimerInformation>(_collection);

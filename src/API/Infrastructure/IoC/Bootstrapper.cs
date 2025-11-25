@@ -5,6 +5,9 @@ using Domain.Interfaces.v1.Repositories.UserTimer;
 using Domain.Interfaces.v1.Repositories.WorkTimer;
 using Domain.Interfaces.v1.Repositories.WorkTimerImported;
 using Infrastructure.Data.Mongo.Repositories.v1.TimeOff;
+using Infrastructure.Data.Query.Queries.v1.UserTimer.GetUserTimerByEmail;
+using Infrastructure.Service.Interfaces.v1.Smtp;
+using Infrastructure.Service.ServiceHandlers.v1.Smtp;
 
 namespace API.Infrastructure.IoC;
 public static class Bootstrapper
@@ -71,6 +74,7 @@ public static class Bootstrapper
             client.BaseAddress = new Uri(msSettings.Url);
         });
 
+        services.AddScoped<ISmtpServiceClient, SmtpServiceClient>();
         services.AddScoped<IUserContext, UserContext>();
     }
 }

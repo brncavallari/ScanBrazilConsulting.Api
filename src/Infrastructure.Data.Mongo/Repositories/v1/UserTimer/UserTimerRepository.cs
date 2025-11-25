@@ -54,7 +54,7 @@ public class UserTimerRepository(
         await collection.UpdateOneAsync(filter, updateSet);
     }
 
-    public async Task<IReadOnlyList<UserTimerInformation>> GetAllUserInformation()
+    public async Task<IEnumerable<UserTimerInformation>> FindAllUserInformationAsync()
     {
         var collection = Database.GetCollection<UserTimerInformation>(_collection);
 

@@ -11,5 +11,8 @@ public sealed class AppSettings
 
     [JsonPropertyName("microsoftSettings")]
     public MicrosoftSettings MicrosoftSettings { get; set; }
+
+    [JsonPropertyName("emailSettings")]
+    public EmailSettings EmailSettings { get; set; }
 }
 

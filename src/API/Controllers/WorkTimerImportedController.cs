@@ -1,4 +1,6 @@
-﻿namespace API.Controllers;
+﻿using Infrastructure.Data.Query.Queries.v1.WorkTimer.GetAllWorkTimersImported;
+
+namespace API.Controllers;
 
 [ApiController]
 [Route("/api/v1/[controller]")]

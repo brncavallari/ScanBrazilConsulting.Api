@@ -22,20 +22,29 @@ public class MicrosoftServiceClient : IMicrosoftServiceClient
 
     public async Task<MicrosoftServiceResponse> GetUserInformationAsync(MicrosoftServiceRequest request)
     {
-        _httpClient.DefaultRequestHeaders.Authorization =
-            new AuthenticationHeaderValue("Bearer", request.Token);
-
-        HttpResponseMessage response = await _httpClient.GetAsync("beta/me");
-
-        if (response.IsSuccessStatusCode)
+        try
         {
-            var content = await response.Content.ReadFromJsonAsync<MicrosoftServiceResponse>();
+            _httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", request.Token);
 
-            return content ?? throw new Exception("Resposta do serviço Microsoft inválida ou vazia.");
+            HttpResponseMessage response = await _httpClient.GetAsync("beta/me");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadFromJsonAsync<MicrosoftServiceResponse>();
+
+                return content ?? throw new Exception("Resposta do serviço Microsoft inválida ou vazia.");
+            }
+
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+                throw new UnauthorizedAccessException("Token de acesso inválido ou expirado.");
+
+            throw new Exception($"Erro ao acessar Microsoft API. Status: {response.StatusCode}.");
+        }
+        catch (Exception)
+        {
+            throw new UnauthorizedAccessException("Token de acesso inválido ou expirado.");
         }
 
-        if (response.StatusCode == HttpStatusCode.Unauthorized)
-            throw new Exception("Token de acesso inválido ou expirado.");
-        throw new Exception($"Erro ao acessar Microsoft API. Status: {response.StatusCode}.");
     }
 }

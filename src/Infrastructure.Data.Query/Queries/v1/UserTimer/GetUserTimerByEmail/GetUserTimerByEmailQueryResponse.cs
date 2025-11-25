@@ -1,6 +1,6 @@
 ﻿using Domain.Entities.MongoDb.v1.UserTimer;
 
-namespace Infrastructure.Data.Query.Queries.v1.GetUserTimerByEmail;
+namespace Infrastructure.Data.Query.Queries.v1.UserTimer.GetUserTimerByEmail;
 public class GetUserTimerByEmailQueryResponse
 {
     public string Name { get; set; }

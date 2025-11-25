@@ -1,6 +1,6 @@
 ﻿using Domain.Entities.MongoDb.v1.WorkTimerImported;
 
-namespace Infrastructure.Data.Query.Queries.v1.GetAllWorkTimersImported;
+namespace Infrastructure.Data.Query.Queries.v1.WorkTimer.GetAllWorkTimersImported;
 
 public class GetAllWorkTimersImportedQueryResponse
 {

@@ -100,7 +100,7 @@ public static class WorkTimersBuilder
             .Trim();
     }
 
-    private static PropertyInfo? FindMatchingProperty(PropertyInfo[] props, string header)
+    private static PropertyInfo FindMatchingProperty(PropertyInfo[] props, string header)
     {
         return props.FirstOrDefault(p =>
             string.Equals(p.Name, header, StringComparison.OrdinalIgnoreCase) ||

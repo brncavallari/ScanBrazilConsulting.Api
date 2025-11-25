@@ -1,18 +1,18 @@
 ﻿using Domain.Entities.MongoDb.v1.UserTimer;
 
-namespace Infrastructure.Data.Query.Queries.v1.GetAllUserInformation;
+namespace Infrastructure.Data.Query.Queries.v1.UserTimer.GetAllUserTimer;
 
-public class GetAllUserInformationQueryResponse
+public sealed class GetAllUserTimerQueryResponse
 {
     public string Id { get; set; }
     public string Name { get; set; }
     public string Email { get; set; }
     public double Hour { get; set; }
-    public List<Remark> Remarks { get; set; }
+    public IEnumerable<Remark> Remarks { get; set; }
 
-    public static implicit operator GetAllUserInformationQueryResponse(UserTimerInformation userTimerInformation)
+    public static implicit operator GetAllUserTimerQueryResponse(UserTimerInformation userTimerInformation)
     {
-        if (userTimerInformation is null) return new GetAllUserInformationQueryResponse();
+        if (userTimerInformation is null) return new GetAllUserTimerQueryResponse();
 
         return new()
         {
@@ -26,12 +26,12 @@ public class GetAllUserInformationQueryResponse
                 Value = r.Value,
                 UpdateAt = r.UpdateAt,
                 UserName = r.UserName
-            }).ToList()
+            })
         };
     }
 }
 
-public class Remark
+public sealed class Remark
 {
     public string Description { get; set; }
     public string UserName { get; set; }

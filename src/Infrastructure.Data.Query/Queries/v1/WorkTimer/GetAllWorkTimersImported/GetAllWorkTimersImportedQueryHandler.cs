@@ -1,7 +1,7 @@
 ﻿using Domain.Interfaces.v1.Repositories.WorkTimerImported;
 using MediatR;
 
-namespace Infrastructure.Data.Query.Queries.v1.GetAllWorkTimersImported;
+namespace Infrastructure.Data.Query.Queries.v1.WorkTimer.GetAllWorkTimersImported;
 
 public class GetAllWorkTimersImportedQueryHandler(
     IWorkTimerImportedRepository _workTimerImportedRepository
@@ -11,7 +11,7 @@ public class GetAllWorkTimersImportedQueryHandler(
     {
         try
         {
-            var workTimersImported = await _workTimerImportedRepository.GetAllWorkTimersImported();
+            var workTimersImported = await _workTimerImportedRepository.FindAllWorkTimersImportedAsync();
 
             if (workTimersImported is null || workTimersImported.Count == 0)  return [];
 

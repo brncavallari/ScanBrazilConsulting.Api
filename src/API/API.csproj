@@ -15,7 +15,7 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\Infrastructure.Data.Mongo\Infrastructure.Data.Mongo.csproj" />
     <ProjectReference Include="..\Infrastructure.Data.Query\Infrastructure.Data.Query.csproj" />
-    <ProjectReference Include="..\Infrastructure.Service\Infrastructure.Data.Service.csproj" />
+    <ProjectReference Include="..\Infrastructure.Service\Infrastructure.Service.csproj" />
   </ItemGroup>
 
 </Project>

@@ -16,7 +16,7 @@ public sealed class DeleteWorkTimerImportedCommandHandler(
             var importedFile = await _workTimerImportedRepository.FindByIdAsync(deleteWorkCommand.Id) ??
                 throw new FileNotFoundException($"File with ID {deleteWorkCommand.Id} not found.");
 
-            var workTimers = await _workTimerRepository.GetByFileNameAsync(importedFile.FileName.Replace(".xlsx", string.Empty));
+            var workTimers = await _workTimerRepository.FindByFileNameAsync(importedFile.FileName.Replace(".xlsx", string.Empty));
             if (workTimers is null) return Unit.Value;
 
             var users = workTimers

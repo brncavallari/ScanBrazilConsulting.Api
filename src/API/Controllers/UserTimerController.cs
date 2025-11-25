@@ -1,4 +1,7 @@
-﻿namespace API.Controllers;
+﻿using Infrastructure.Data.Query.Queries.v1.UserTimer.GetAllUserTimer;
+using Infrastructure.Data.Query.Queries.v1.UserTimer.GetUserTimerByEmail;
+
+namespace API.Controllers;
 
 [ApiController]
 [Route("/api/v1/[controller]")]
@@ -12,11 +15,7 @@ public class UserTimerController(
     {
         try
         {
-            var token = Request.Headers.Authorization.ToString();
-
-            if (token is null) return Unauthorized();
-
-            var getUserTimerByEmailQueryResponse = await _mediator.Send(new GetUserTimerByEmailQuery(token));
+            var getUserTimerByEmailQueryResponse = await _mediator.Send(new GetUserTimerByEmailQuery());
             return Ok(getUserTimerByEmailQueryResponse);
         }
         catch (Exception ex)
@@ -35,7 +34,7 @@ public class UserTimerController(
 
     [HttpGet]
     [ProducesResponseType((int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetAll([FromQuery] GetAllUserInformationQuery getAllUserInformationQuery)
+    public async Task<IActionResult> GetAll([FromQuery] GetAllUserTimerQuery getAllUserInformationQuery)
     {
         try
         {

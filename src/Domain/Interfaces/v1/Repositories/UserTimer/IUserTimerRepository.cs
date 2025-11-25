@@ -5,5 +5,5 @@ public interface IUserTimerRepository
     Task InsertUserTimerAsync(UserTimerInformation workInformation);
     Task<UserTimerInformation> FindEmailAsync(string email);
     Task UpsertUserTimerAsync(UserTimerInformation workInformation);
-    Task<IReadOnlyList<UserTimerInformation>> GetAllUserInformation();
+    Task<IEnumerable<UserTimerInformation>> FindAllUserInformationAsync();
 }

@@ -3,7 +3,7 @@
 public interface IWorkTimerImportedRepository
 {
     Task<bool> InsertIfNotExistsAsync(WorkTimerImportedInformation information);
-    Task<IReadOnlyList<WorkTimerImportedInformation>> GetAllWorkTimersImported();
+    Task<IReadOnlyList<WorkTimerImportedInformation>> FindAllWorkTimersImportedAsync();
     Task<WorkTimerImportedInformation> FindByIdAsync(string id);
     Task<bool> DeleteTaskByFileNameAsync(string fileName);
 }

@@ -1,4 +1,6 @@
-﻿namespace API.Filter.v1
+﻿using System.Text.Json;
+
+namespace API.Filter.v1
 {
     public class TokenValidationMiddleware(
         RequestDelegate next,
@@ -37,14 +39,51 @@
                         if (identity.Claims.Any())
                             context.User.AddIdentity(identity);
                     }
+                    else
+                    {
+                        await WriteErrorResponse(context, 401, "Token malformado ou inválido");
+                        return;
+                    }
                 }
-                catch (Exception ex)
+                catch (UnauthorizedAccessException)
                 {
-                    throw new Exception(ex.Message);
+                    await WriteErrorResponse(context, 401, "Token inválido ou expirado");
+                    return;
                 }
+                catch (HttpRequestException)
+                {
+                    await WriteErrorResponse(context, 503, "Serviço de autenticação indisponível");
+                    return;
+                }
+                catch (Exception)
+                {
+                    await WriteErrorResponse(context, 500, "Erro interno na validação do token");
+                    return;
+                }
+            }
+            else
+            {
+                await WriteErrorResponse(context, 401, "Token de acesso é obrigatório");
+                return;
             }
 
             await _next(context);
+        }
+
+        private static async Task WriteErrorResponse(HttpContext context, int statusCode, string message)
+        {
+            context.Response.StatusCode = statusCode;
+            context.Response.ContentType = "application/json";
+
+            var errorResponse = new
+            {
+                statusCode,
+                message,
+                timestamp = DateTime.UtcNow
+            };
+
+            var jsonResponse = JsonSerializer.Serialize(errorResponse);
+            await context.Response.WriteAsync(jsonResponse);
         }
     }
 }
