@@ -1,4 +1,7 @@
-﻿namespace API.Infrastructure.IoC;
+﻿using API.Context.v1;
+using Domain.Interfaces.v1.Context;
+
+namespace API.Infrastructure.IoC;
 public static class Bootstrapper
 {
     public static IServiceCollection Inject(this IServiceCollection services, IConfiguration configuration)
@@ -57,5 +60,7 @@ public static class Bootstrapper
 
             client.BaseAddress = new Uri(msSettings.Url);
         });
+
+        services.AddScoped<IUserContext, UserContext>();
     }
 }

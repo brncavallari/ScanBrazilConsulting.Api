@@ -1,7 +1,9 @@
-﻿namespace Domain.Commands.v1.UserTimer.Update;
+﻿using Domain.Interfaces.v1.Context;
+
+namespace Domain.Commands.v1.UserTimer.Update;
 public sealed class UpdateUserTimerCommandHandler(
-    IUserTimerRepository _userTimerRepository
-    ) : IRequestHandler<UpdateUserTimerCommand, Unit>
+    IUserTimerRepository _userTimerRepository,
+    IUserContext _userContext) : IRequestHandler<UpdateUserTimerCommand, Unit>
 {
     public async Task<Unit> Handle(UpdateUserTimerCommand updateUserTimerCommand, CancellationToken cancellationToken)
     {
@@ -14,7 +16,7 @@ public sealed class UpdateUserTimerCommandHandler(
                 userTimer.SetUserTimer(
                     updateUserTimerCommand.Hour,
                     updateUserTimerCommand.Remark,
-                    updateUserTimerCommand.UserName
+                    _userContext.UserName ?? string.Empty
                 );
 
                 await _userTimerRepository.UpsertUserTimerAsync(

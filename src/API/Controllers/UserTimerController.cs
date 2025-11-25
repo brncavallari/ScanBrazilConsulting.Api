@@ -2,7 +2,7 @@
 
 [ApiController]
 [Route("/api/v1/[controller]")]
-//[Authorize]
+[Authorize]
 public class UserTimerController(
     IMediator _mediator) : ControllerBase
 {
