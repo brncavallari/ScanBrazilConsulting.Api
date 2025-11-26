@@ -30,6 +30,8 @@ public sealed class UserTimerInformation
         else
             Remarks.Add(remark);
     }
+
+    public void Subtract(double hour) => Hour -= hour;
 }
 
 public sealed class Remark

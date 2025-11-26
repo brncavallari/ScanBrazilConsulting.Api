@@ -1,4 +1,6 @@
-﻿using Domain.Commands.v1.TimeOff.Create;
+﻿using Domain.Commands.v1.TimeOff.Approve;
+using Domain.Commands.v1.TimeOff.Create;
+using Domain.Commands.v1.TimeOff.Reject;
 using Infrastructure.Data.Query.Queries.v1.TimeoOff.GetAllTimeOff;
 using Infrastructure.Data.Query.Queries.v1.TimeoOff.GetTimeOffByProtocol;
 
@@ -34,26 +36,23 @@ public class TimeOffController(
         return Ok(getTimeOffByProtocolResponse);
     }
 
-    //[HttpPost("{protocol}/approve")]
-    //public async Task<IActionResult> Approve(string protocol, [FromBody] ApproveTimeOffCommand approveTimeOffCommand)
-    //{
-    //    var command = new ApproveTimeOffCommand { Protocol = protocol, Description = approveTimeOffCommand.Description };
-    //    var result = await _mediator.Send(command);
+    [HttpPost("{protocol}/approve")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<IActionResult> Approve(string protocol, [FromBody] ApproveTimeOffCommand approveTimeOffCommand)
+    {
+        approveTimeOffCommand.Protocol = protocol;
+        await _mediator.Send(approveTimeOffCommand);
 
-    //    return Ok(result);
-    //}
+        return Ok();
+    }
 
-    //[HttpPost("{protocol}/reject")]
-    //public async Task<IActionResult> Reject(string protocol, [FromBody] RejectTimeOffCommand rejectTimeOffCommand)
-    //{
-    //    var command = new RejectTimeOffCommand
-    //    {
-    //        Protocol = protocol,
-    //        Description = rejectTimeOffCommand.Description
-    //    };
+    [HttpPost("{protocol}/reject")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<IActionResult> Reject(string protocol,[FromBody] RejectTimeOffCommand rejectTimeOffCommand)
+    {
+        rejectTimeOffCommand.Protocol = protocol;
+        await _mediator.Send(rejectTimeOffCommand);
 
-    //    var result = await _mediator.Send(command);
-
-    //    return Ok(result);
-    //}
+        return Ok();
+    }
 }

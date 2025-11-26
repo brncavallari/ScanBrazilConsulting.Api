@@ -1,4 +1,5 @@
 ﻿using Domain.Entities.MongoDb.v1.TimeOff;
+using Domain.Enum.v1;
 using Domain.Interfaces.v1.Repositories.TimeOff;
 using Infrastructure.Data.Mongo.Repositories.v1.Base;
 using MongoDB.Driver;
@@ -39,11 +40,34 @@ public sealed class TimeOffRepository(
 
         var options = new FindOptions<TimeOffInformation>
         {
-            Sort = Builders<TimeOffInformation>.Sort.Ascending(x => x.Status)
+            Sort = Builders<TimeOffInformation>.Sort
+                .Ascending(x => x.Status)
+                .Ascending(x => x.CreatedAt)
         };
 
         var timeOffs = (await collection.FindAsync(Builders<TimeOffInformation>.Filter.Empty, options: options)).ToListAsync();
 
         return await timeOffs;
+    }
+
+    public async Task ApproveOrRejectTimeOffAsync(
+        string description,
+        string approver,
+        string protocol,
+
+        bool isApprove)
+    {
+        var collection = Database.GetCollection<TimeOffInformation>(_collection);
+
+        var filter = Builders<TimeOffInformation>.Filter.Eq(x => x.Protocol, protocol);
+
+        var status = isApprove ? TimeOffEnum.Approved : TimeOffEnum.Rejected;
+
+        var updateSet = Builders<TimeOffInformation>.Update
+            .Set(x => x.Description, description)
+            .Set(x => x.Approver, approver)
+            .Set(x=> x.Status, status);
+
+        await collection.UpdateOneAsync(filter, updateSet);
     }
 }

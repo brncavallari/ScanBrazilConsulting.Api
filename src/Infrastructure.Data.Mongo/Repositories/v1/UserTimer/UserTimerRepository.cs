@@ -10,13 +10,24 @@ public class UserTimerRepository(
     ) : MongoDbBaseRepository<UserTimerInformation>(collectionName), IUserTimerRepository
 {
     private readonly string _collection = collectionName;
-    public async Task InsertUserTimerAsync(UserTimerInformation userInformation)
+    public async Task InsertUserTimerAsync(
+        UserTimerInformation userInformation)
     {
         var collection = Database.GetCollection<UserTimerInformation>(_collection);
         await collection.InsertOneAsync(userInformation);
     }
 
-    public async Task<UserTimerInformation> FindEmailAsync(string email)
+    public async Task UpdateUserTimerAsync(
+        UserTimerInformation userInformation)
+    {
+        var collection = Database.GetCollection<UserTimerInformation>(_collection);
+
+        var filter = Builders<UserTimerInformation>.Filter.Eq(x => x.Id, userInformation.Id);
+        await collection.ReplaceOneAsync(filter, userInformation);
+    }
+
+    public async Task<UserTimerInformation> FindEmailAsync(
+        string email)
     {
         var collection = Database.GetCollection<UserTimerInformation>(_collection);
 
@@ -40,11 +51,12 @@ public class UserTimerRepository(
         return result;
     }
 
-    public async Task UpsertUserTimerAsync(UserTimerInformation userTimerInformation)
+    public async Task UpsertUserTimerAsync(
+        UserTimerInformation userTimerInformation)
     {
         var collection = Database.GetCollection<UserTimerInformation>(_collection);
 
-        var filter = Builders<UserTimerInformation>.Filter.Eq(x => x.Email, userTimerInformation.Email);
+        var filter = Builders<UserTimerInformation>.Filter.Eq(x => x.Id, userTimerInformation.Id);
 
         var updateSet = Builders<UserTimerInformation>.Update
             .Set(x => x.Hour, userTimerInformation.Hour)

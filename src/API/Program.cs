@@ -13,6 +13,7 @@ builder.Services.AddCors(options =>
 
 BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.CSharpLegacy));
 
+builder.Services.AddMemoryCache();
 builder.Services.Inject(builder.Configuration);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllers();

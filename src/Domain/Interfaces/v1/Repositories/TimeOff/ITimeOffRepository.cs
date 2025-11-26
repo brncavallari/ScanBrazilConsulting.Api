@@ -6,4 +6,5 @@ public interface ITimeOffRepository
     Task AddAsync(TimeOffInformation timeOffInformation);
     Task<IEnumerable<TimeOffInformation>> FindAllTimeOffAsync();
     Task<TimeOffInformation> FindByProtocolAsync(string protocol);
+    Task ApproveOrRejectTimeOffAsync(string description, string approver, string protocol, bool isApprove);
 }
