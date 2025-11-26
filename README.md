@@ -1,1 +1,0 @@
-# ScanBrazilConsulting.Api
