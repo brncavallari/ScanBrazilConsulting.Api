@@ -1,4 +1,6 @@
-﻿using Domain.Entities.MongoDb.v1.TimeOff;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Wordprocessing;
+using Domain.Entities.MongoDb.v1.TimeOff;
 using Domain.Enum.v1;
 using Domain.Interfaces.v1.Repositories.TimeOff;
 using Infrastructure.Data.Mongo.Repositories.v1.Base;
@@ -34,7 +36,7 @@ public sealed class TimeOffRepository(
         return await timeOff;
     }
 
-    public async Task<IEnumerable<TimeOffInformation>> FindAllTimeOffAsync()
+    public async Task<IEnumerable<TimeOffInformation>> FindAllAsync()
     {
         var collection = Database.GetCollection<TimeOffInformation>(_collection);
 
@@ -50,11 +52,10 @@ public sealed class TimeOffRepository(
         return await timeOffs;
     }
 
-    public async Task ApproveOrRejectTimeOffAsync(
+    public async Task ApproveOrRejectAsync(
         string description,
         string approver,
         string protocol,
-
         bool isApprove)
     {
         var collection = Database.GetCollection<TimeOffInformation>(_collection);
@@ -69,5 +70,31 @@ public sealed class TimeOffRepository(
             .Set(x=> x.Status, status);
 
         await collection.UpdateOneAsync(filter, updateSet);
+    }
+
+    public async Task<IEnumerable<TimeOffInformation>> FindByEmailAsync(string email)
+    {
+        var collection = Database.GetCollection<TimeOffInformation>(_collection);
+
+        var options = new FindOptions<TimeOffInformation>
+        {
+            Sort = Builders<TimeOffInformation>.Sort
+                     .Ascending(x => x.Status)
+                     .Ascending(x => x.CreatedAt)
+        };
+
+        var filter = Builders<TimeOffInformation>.Filter.Eq(x => x.UserEmail, email);
+
+        var timeOffs = (await collection.FindAsync(filter, options: options)).ToListAsync();
+
+        return await timeOffs;
+    }
+
+    public async Task RemoveByProtocol(string protocol)
+    {
+        var collection = Database.GetCollection<TimeOffInformation>(_collection);
+
+        var filter = Builders<TimeOffInformation>.Filter.Eq(x => x.Protocol, protocol);
+        await collection.DeleteOneAsync(filter);
     }
 }

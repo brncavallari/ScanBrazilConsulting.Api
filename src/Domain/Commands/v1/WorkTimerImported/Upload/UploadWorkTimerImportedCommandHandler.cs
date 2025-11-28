@@ -58,16 +58,16 @@ public sealed class UploadWorkTimerImportedCommandHandler(
 
                 var hour = WorkTimersBuilder.CalculateExtraHours(user);
 
-                var userTimer = await _userTimerRepository.FindEmailAsync(email);
+                var userTimer = await _userTimerRepository.FindByEmailAsync(email);
 
                 if (userTimer is not null)
                 {
                     userTimer.Hour += hour;
-                    await _userTimerRepository.UpsertUserTimerAsync(userTimer);
+                    await _userTimerRepository.UpsertAsync(userTimer);
                 }
                 else
                 {
-                    await _userTimerRepository.InsertUserTimerAsync(new UserTimerInformation
+                    await _userTimerRepository.AddAsync(new UserTimerInformation
                     {
                         Email = email,
                         Hour = hour,

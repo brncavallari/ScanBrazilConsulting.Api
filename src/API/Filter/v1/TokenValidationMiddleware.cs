@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using Infrastructure.Service.Services.Microsoft;
+using Microsoft.Extensions.Caching.Memory;
 using System.Text.Json;
 
 namespace API.Filter.v1;
@@ -28,7 +29,6 @@ public class TokenValidationMiddleware(
 
                     if (!_cache.TryGetValue(cacheKey, out MicrosoftServiceResponse userInfo))
                     {
-                        
                         userInfo = await _microsoftServiceClient.GetUserInformationAsync(
                             new MicrosoftServiceRequest(token));
 
@@ -43,6 +43,8 @@ public class TokenValidationMiddleware(
 
                     if (!string.IsNullOrEmpty(userInfo.Email))
                         identity.AddClaim(new Claim(ClaimTypes.Email, userInfo.Email));
+                    if (!string.IsNullOrEmpty(userInfo.CompanyEmail))
+                        identity.AddClaim(new Claim(ClaimTypes.Upn, userInfo.CompanyEmail));
                     if (!string.IsNullOrEmpty(userInfo.Name))
                         identity.AddClaim(new Claim(ClaimTypes.Name, userInfo.Name));
                     if (!string.IsNullOrEmpty(userInfo.Job))

@@ -1,7 +1,7 @@
-﻿using Domain.Constants.v1;
-using Domain.Interfaces.v1.Context;
+﻿using Domain.Interfaces.v1.Context;
 using Domain.Interfaces.v1.Repositories.TimeOff;
 using Domain.Interfaces.v1.Repositories.UserTimer;
+using Domain.Templates.v1;
 using Infrastructure.Service.Interfaces.v1.Smtp;
 
 namespace Domain.Commands.v1.TimeOff.Approve;
@@ -18,15 +18,15 @@ public sealed class ApproveTimeOffCommandHandler(
             var timeOff = await _timeOffRepository.FindByProtocolAsync(approveTimeOffCommand.Protocol) ??
                 throw new Exception();
 
-            var userTimer = await _userTimerRepository.FindEmailAsync(_userContext.UserEmail);
+            var userTimer = await _userTimerRepository.FindByEmailAsync(approveTimeOffCommand.UserEmail);
 
             userTimer.Subtract(
                 timeOff.Hour);
 
-            await _userTimerRepository.UpdateUserTimerAsync(
+            await _userTimerRepository.UpdateAsync(
                 userTimer);
 
-            await _timeOffRepository.ApproveOrRejectTimeOffAsync(
+            await _timeOffRepository.ApproveOrRejectAsync(
                 description: approveTimeOffCommand.Description,
                 protocol: approveTimeOffCommand.Protocol,
                 approver: _userContext.UserName,
@@ -48,14 +48,14 @@ public sealed class ApproveTimeOffCommandHandler(
         string protocol,
         string email)
     {
-        var body = EmailConstant.TimeOffTemplateApproved(
+        var body = EmailTemplate.Approved(
             protocol,
             _userContext.UserName
         );
 
         await _smtpServiceClient.SendEmailAsync(
             email,
-            EmailConstant.SubjectApproved,
+            EmailTemplate.SubjectApproved,
             body
         );
     }

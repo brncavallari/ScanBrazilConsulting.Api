@@ -2,9 +2,9 @@
 
 public interface IUserTimerRepository
 {
-    Task InsertUserTimerAsync(UserTimerInformation workInformation);
-    Task<UserTimerInformation> FindEmailAsync(string email);
-    Task UpsertUserTimerAsync(UserTimerInformation workInformation);
-    Task<IEnumerable<UserTimerInformation>> FindAllUserInformationAsync();
-    Task UpdateUserTimerAsync(UserTimerInformation userInformation);
+    Task AddAsync(UserTimerInformation workInformation);
+    Task<UserTimerInformation> FindByEmailAsync(string email);
+    Task UpsertAsync(UserTimerInformation workInformation);
+    Task<IEnumerable<UserTimerInformation>> FindAllAsync();
+    Task UpdateAsync(UserTimerInformation userInformation);
 }

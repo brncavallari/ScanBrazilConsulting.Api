@@ -24,7 +24,7 @@ public class GetAllWorkTimersImportedQueryResponse
         };
     }
 
-    public static List<GetAllWorkTimersImportedQueryResponse> FromEntityList(IEnumerable<WorkTimerImportedInformation> entities)
+    public static List<GetAllWorkTimersImportedQueryResponse> Map(IEnumerable<WorkTimerImportedInformation> entities)
     {
         if (entities is null || !entities.Any()) return [];
 

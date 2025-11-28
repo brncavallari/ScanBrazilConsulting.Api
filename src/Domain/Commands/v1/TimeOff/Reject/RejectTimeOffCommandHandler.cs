@@ -1,8 +1,6 @@
-﻿using CrossCutting.Configuration;
-using CrossCutting.Configuration.AppModels;
-using Domain.Constants.v1;
-using Domain.Interfaces.v1.Context;
+﻿using Domain.Interfaces.v1.Context;
 using Domain.Interfaces.v1.Repositories.TimeOff;
+using Domain.Templates.v1;
 using Infrastructure.Service.Interfaces.v1.Smtp;
 
 namespace Domain.Commands.v1.TimeOff.Reject;
@@ -18,7 +16,7 @@ public sealed class RejectTimeOffCommandHandler(
             var timeOff = await _timeOffRepository.FindByProtocolAsync(rejectTimeOffCommand.Protocol) ??
                 throw new Exception();
 
-            await _timeOffRepository.ApproveOrRejectTimeOffAsync(
+            await _timeOffRepository.ApproveOrRejectAsync(
                 description: rejectTimeOffCommand.Description,
                 protocol: rejectTimeOffCommand.Protocol,
                 approver: _userContext.UserName,
@@ -40,14 +38,14 @@ public sealed class RejectTimeOffCommandHandler(
         RejectTimeOffCommand rejectTimeOffCommand,
         string email)
     {
-        var body = EmailConstant.TimeOffTemplateRejected(
+        var body = EmailTemplate.Rejected(
             rejectTimeOffCommand,
             _userContext.UserName
         );
 
         await _smtpServiceClient.SendEmailAsync(
             email,
-            EmailConstant.SubjectRejected,
+            EmailTemplate.SubjectRejected,
             body
         );
     }

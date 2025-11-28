@@ -2,6 +2,7 @@
 public interface IUserContext
 {
     string UserName { get; }
-    string UserEmail { get; }
+    string Email { get; }
+    string CompanyEmail { get; }
     string UserRole { get; }
 }

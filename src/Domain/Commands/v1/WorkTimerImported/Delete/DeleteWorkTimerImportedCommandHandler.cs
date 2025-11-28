@@ -36,12 +36,12 @@ public sealed class DeleteWorkTimerImportedCommandHandler(
 
                 if (string.IsNullOrEmpty(email)) continue;
 
-                var existingUser = await _userTimerRepository.FindEmailAsync(email);
+                var existingUser = await _userTimerRepository.FindByEmailAsync(email);
                 if (existingUser is null) continue;
 
                 existingUser.Hour -= (user.TotalCompletedWork - 160);
 
-                await _userTimerRepository.UpsertUserTimerAsync(new UserTimerInformation
+                await _userTimerRepository.UpsertAsync(new UserTimerInformation
                 {
                     Email = email,
                     Hour = existingUser.Hour,

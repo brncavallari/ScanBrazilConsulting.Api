@@ -10,7 +10,7 @@ public sealed class UpdateUserTimerCommandHandler(
     {
         try
         {
-            var userTimer = await _userTimerRepository.FindEmailAsync(updateUserTimerCommand.Email);
+            var userTimer = await _userTimerRepository.FindByEmailAsync(updateUserTimerCommand.Email);
 
             if (userTimer is not null)
             {
@@ -20,7 +20,7 @@ public sealed class UpdateUserTimerCommandHandler(
                     _userContext.UserName ?? string.Empty
                 );
 
-                await _userTimerRepository.UpsertUserTimerAsync(
+                await _userTimerRepository.UpsertAsync(
                     userTimer);
             }
         }

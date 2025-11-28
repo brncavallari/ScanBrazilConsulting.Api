@@ -26,7 +26,7 @@ public sealed class WorkTimerImportedRepository(string collectionName)
         await collection.InsertOneAsync(information);
         return true;
     }
-    public async Task<IReadOnlyList<WorkTimerImportedInformation>> FindAllWorkTimersImportedAsync()
+    public async Task<IReadOnlyList<WorkTimerImportedInformation>> FindAllAsync()
     {
         var workTimerCollection = Database.GetCollection<WorkTimerImportedInformation>(_collection);
 

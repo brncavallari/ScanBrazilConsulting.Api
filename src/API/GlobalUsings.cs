@@ -8,7 +8,6 @@ global using Infrastructure.Data.Mongo.Repositories.v1.UserTimer;
 global using Infrastructure.Data.Mongo.Repositories.v1.WorkTimer;
 global using Infrastructure.Data.Mongo.Repositories.v1.WorkTimerImported;
 global using Infrastructure.Data.Service.Interfaces.v1.Microsoft;
-global using Infrastructure.Data.Service.ServiceHandlers.v1.Microsoft;
 global using Infrastructure.Data.Service.Services.Microsoft;
 global using MediatR;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;

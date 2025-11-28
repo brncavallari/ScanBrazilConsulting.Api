@@ -10,14 +10,14 @@ public class UserTimerRepository(
     ) : MongoDbBaseRepository<UserTimerInformation>(collectionName), IUserTimerRepository
 {
     private readonly string _collection = collectionName;
-    public async Task InsertUserTimerAsync(
+    public async Task AddAsync(
         UserTimerInformation userInformation)
     {
         var collection = Database.GetCollection<UserTimerInformation>(_collection);
         await collection.InsertOneAsync(userInformation);
     }
 
-    public async Task UpdateUserTimerAsync(
+    public async Task UpdateAsync(
         UserTimerInformation userInformation)
     {
         var collection = Database.GetCollection<UserTimerInformation>(_collection);
@@ -26,7 +26,7 @@ public class UserTimerRepository(
         await collection.ReplaceOneAsync(filter, userInformation);
     }
 
-    public async Task<UserTimerInformation> FindEmailAsync(
+    public async Task<UserTimerInformation> FindByEmailAsync(
         string email)
     {
         var collection = Database.GetCollection<UserTimerInformation>(_collection);
@@ -51,7 +51,7 @@ public class UserTimerRepository(
         return result;
     }
 
-    public async Task UpsertUserTimerAsync(
+    public async Task UpsertAsync(
         UserTimerInformation userTimerInformation)
     {
         var collection = Database.GetCollection<UserTimerInformation>(_collection);
@@ -66,7 +66,7 @@ public class UserTimerRepository(
         await collection.UpdateOneAsync(filter, updateSet);
     }
 
-    public async Task<IEnumerable<UserTimerInformation>> FindAllUserInformationAsync()
+    public async Task<IEnumerable<UserTimerInformation>> FindAllAsync()
     {
         var collection = Database.GetCollection<UserTimerInformation>(_collection);
 

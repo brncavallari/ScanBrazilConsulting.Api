@@ -10,7 +10,7 @@ public class GetAllUserTimerQueryHandler(
     {
         try
         {
-            var usersInformation = await _userTimerRepository.FindAllUserInformationAsync();
+            var usersInformation = await _userTimerRepository.FindAllAsync();
 
             if (usersInformation is null || !usersInformation.Any()) return [];
 

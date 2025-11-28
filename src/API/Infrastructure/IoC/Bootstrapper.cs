@@ -1,5 +1,7 @@
 ﻿using API.Context.v1;
+using Domain.Commands.v1.TimeOff.Approve;
 using Domain.Commands.v1.TimeOff.Create;
+using Domain.Commands.v1.TimeOff.Delete;
 using Domain.Commands.v1.TimeOff.Reject;
 using Domain.Interfaces.v1.Context;
 using Domain.Interfaces.v1.Repositories.TimeOff;
@@ -8,11 +10,13 @@ using Domain.Interfaces.v1.Repositories.WorkTimer;
 using Domain.Interfaces.v1.Repositories.WorkTimerImported;
 using Infrastructure.Data.Mongo.Repositories.v1.TimeOff;
 using Infrastructure.Data.Query.Queries.v1.TimeoOff.GetAllTimeOff;
+using Infrastructure.Data.Query.Queries.v1.TimeoOff.GetTimeOffByEmail;
 using Infrastructure.Data.Query.Queries.v1.TimeoOff.GetTimeOffByProtocol;
 using Infrastructure.Data.Query.Queries.v1.UserTimer.GetAllUserTimer;
 using Infrastructure.Data.Query.Queries.v1.UserTimer.GetUserTimerByEmail;
 using Infrastructure.Data.Query.Queries.v1.WorkTimer.GetAllWorkTimersImported;
 using Infrastructure.Service.Interfaces.v1.Smtp;
+using Infrastructure.Service.ServiceHandlers.v1.Microsoft;
 using Infrastructure.Service.ServiceHandlers.v1.Smtp;
 
 namespace API.Infrastructure.IoC;
@@ -31,19 +35,21 @@ public static class Bootstrapper
     {
         var assemblies = new Assembly[]
         {
+            typeof(CreateTimeOffCommandHandler).Assembly,
             typeof(UploadWorkTimerImportedCommandHandler).Assembly,
             typeof(UpdateUserTimerCommandHandler).Assembly,
-            typeof(CreateTimeOffCommandHandler).Assembly,
             typeof(RejectTimeOffCommandHandler).Assembly,
-
+            typeof(ApproveTimeOffCommandHandler).Assembly,
 
             typeof(GetUserTimerByEmailQueryHandler).Assembly,
             typeof(GetAllTimeOffQueryHandler).Assembly,
             typeof(GetTimeOffByProtocolQueryHandler).Assembly,
             typeof(GetAllUserTimerQueryHandler).Assembly,
             typeof(GetAllWorkTimersImportedQueryHandler).Assembly,
+            typeof(GetTimeOffByEmailQueryHandler).Assembly,
 
             typeof(DeleteWorkTimerImportedCommandHandler).Assembly,
+            typeof(DeleteTimeOffByProtocolCommandHandler).Assembly,
         };
 
         services.AddMediatR(cfg =>

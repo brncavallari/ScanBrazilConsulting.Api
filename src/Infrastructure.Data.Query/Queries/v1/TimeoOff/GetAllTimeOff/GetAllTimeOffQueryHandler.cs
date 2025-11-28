@@ -9,7 +9,7 @@ public sealed class GetAllTimeOffQueryHandler(
     {
 		try
 		{
-			var timeOffsInformation = await _timeOffRepository.FindAllTimeOffAsync();
+			var timeOffsInformation = await _timeOffRepository.FindAllAsync();
             return timeOffsInformation.Select(timeOff => (GetAllTimeOffQueryResponse)timeOff);
         }
 		catch (Exception)

@@ -1,8 +1,8 @@
 ﻿using CrossCutting.Configuration;
 using CrossCutting.Configuration.AppModels;
-using Domain.Constants.v1;
 using Domain.Entities.MongoDb.v1.TimeOff;
 using Domain.Interfaces.v1.Repositories.TimeOff;
+using Domain.Templates.v1;
 using Infrastructure.Service.Interfaces.v1.Smtp;
 
 namespace Domain.Commands.v1.TimeOff.Create;
@@ -21,14 +21,14 @@ public sealed class CreateTimeOffCommandHandler(
                 timeOffInformation
             );
 
-            var body = EmailConstant.TimeOffTemplate(
+            var body = EmailTemplate.TimeOff(
                 createTimeOffCommand,
                 timeOffInformation.Protocol
             );
 
             await _smtpServiceClient.SendEmailAsync(
                 _emailSettings.Approver,
-                EmailConstant.Subject,
+                EmailTemplate.Subject,
                 body
             );
         }

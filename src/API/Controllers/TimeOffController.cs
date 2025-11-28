@@ -1,7 +1,9 @@
 ﻿using Domain.Commands.v1.TimeOff.Approve;
 using Domain.Commands.v1.TimeOff.Create;
+using Domain.Commands.v1.TimeOff.Delete;
 using Domain.Commands.v1.TimeOff.Reject;
 using Infrastructure.Data.Query.Queries.v1.TimeoOff.GetAllTimeOff;
+using Infrastructure.Data.Query.Queries.v1.TimeoOff.GetTimeOffByEmail;
 using Infrastructure.Data.Query.Queries.v1.TimeoOff.GetTimeOffByProtocol;
 
 namespace API.Controllers;
@@ -20,6 +22,14 @@ public class TimeOffController(
         return Ok();
     }
 
+    [HttpGet("byEmail")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<IActionResult> GetByEmail()
+    {
+        var getTimeOffByEmailResponse = await _mediator.Send(new GetTimeOffByEmailQuery());
+        return Ok(getTimeOffByEmailResponse);
+    }
+
     [HttpGet]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetAll([FromQuery] GetAllTimeOffQuery getAllTimeOffQuery)
@@ -36,6 +46,14 @@ public class TimeOffController(
         return Ok(getTimeOffByProtocolResponse);
     }
 
+    [HttpDelete("{protocol}")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<IActionResult> Delete(string protocol)
+    {
+        await _mediator.Send(new DeleteTimeOffByProtocolCommand(protocol));
+        return Ok();
+    }
+
     [HttpPost("{protocol}/approve")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     public async Task<IActionResult> Approve(string protocol, [FromBody] ApproveTimeOffCommand approveTimeOffCommand)
@@ -48,7 +66,7 @@ public class TimeOffController(
 
     [HttpPost("{protocol}/reject")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
-    public async Task<IActionResult> Reject(string protocol,[FromBody] RejectTimeOffCommand rejectTimeOffCommand)
+    public async Task<IActionResult> Reject(string protocol, [FromBody] RejectTimeOffCommand rejectTimeOffCommand)
     {
         rejectTimeOffCommand.Protocol = protocol;
         await _mediator.Send(rejectTimeOffCommand);
