@@ -263,5 +263,3 @@ __pycache__/
 # Remove Files Visual Studio Code
 .vscode
 global.json
-launch.json
-.vscode/launch.json
