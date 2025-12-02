@@ -1,4 +1,5 @@
-﻿using Infrastructure.Data.Query.Queries.v1.UserTimer.GetAllUserTimer;
+﻿using Domain.Commands.v1.UserTimer.Create;
+using Infrastructure.Data.Query.Queries.v1.UserTimer.GetAllUserTimer;
 using Infrastructure.Data.Query.Queries.v1.UserTimer.GetUserTimerByEmail;
 
 namespace API.Controllers;
@@ -40,6 +41,21 @@ public class UserTimerController(
         {
             var getAllUsersResponse = await _mediator.Send(getAllUserInformationQuery);
             return Ok(getAllUsersResponse);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost]
+    [ProducesResponseType((int)HttpStatusCode.Created)]
+    public async Task<IActionResult> CreateUser([FromBody] CreateUserTimerCommand createUserTimerCommand)
+    {
+        try
+        {
+            await _mediator.Send(createUserTimerCommand);
+            return Ok();
         }
         catch (Exception ex)
         {

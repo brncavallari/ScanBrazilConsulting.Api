@@ -4,10 +4,10 @@ namespace Infrastructure.Service.Services.Microsoft;
 public sealed class MicrosoftServiceResponse
 {
     [JsonPropertyName("mail")]
-    public string Email { get; set; }
+    public string EmailAlternative { get; set; }
 
     [JsonPropertyName("userPrincipalName")]
-    public string CompanyEmail { get; set; }
+    public string Email { get; set; }
 
     [JsonPropertyName("employeeId")]
     public string Employee { get; set; }

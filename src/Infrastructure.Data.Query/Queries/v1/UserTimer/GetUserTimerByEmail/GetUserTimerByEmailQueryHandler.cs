@@ -11,7 +11,7 @@ public sealed class GetUserTimerByEmailQueryHandler(
     {
         try
         {
-            var userTimer = await _userTimerRepository.FindByEmailAsync(
+            var userTimer = await _userTimerRepository.FindByEmailAlternativeAsync(
                 _userContext.Email
             );
 

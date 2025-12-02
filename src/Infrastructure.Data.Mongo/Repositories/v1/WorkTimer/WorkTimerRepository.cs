@@ -40,7 +40,7 @@ public sealed class WorkTimerRepository(
     {
         var collection = Database.GetCollection<WorkTimerInformation>(_collection);
 
-        var filter = Builders<WorkTimerInformation>.Filter.Eq(x => x.FileName, fileName);
+        var filter = Builders<WorkTimerInformation>.Filter.Eq(x => x.FileName, fileName.Replace(".xlsx", ""));
 
         var result = await collection.DeleteManyAsync(filter);
 

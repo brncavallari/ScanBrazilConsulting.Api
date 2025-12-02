@@ -14,7 +14,7 @@ public sealed class UpdateUserTimerCommandHandler(
 
             if (userTimer is not null)
             {
-                userTimer.SetUserTimer(
+                userTimer.SetRemark(
                     updateUserTimerCommand.Hour,
                     updateUserTimerCommand.Remark,
                     _userContext.UserName ?? string.Empty

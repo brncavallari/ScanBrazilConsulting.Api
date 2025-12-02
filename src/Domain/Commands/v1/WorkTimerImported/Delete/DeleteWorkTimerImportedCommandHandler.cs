@@ -32,18 +32,22 @@ public sealed class DeleteWorkTimerImportedCommandHandler(
 
             foreach (var user in users)
             {
-                var (name, email) = WorkTimersBuilder.ExtractNameAndEmail(user.Key);
+                var (name, emailAlternative) = WorkTimersBuilder.ExtractNameAndEmail(user.Key);
 
-                if (string.IsNullOrEmpty(email)) continue;
+                if (string.IsNullOrEmpty(emailAlternative)) continue;
 
-                var existingUser = await _userTimerRepository.FindByEmailAsync(email);
+                var existingUser = await _userTimerRepository.FindByEmailAlternativeAsync(emailAlternative);
                 if (existingUser is null) continue;
 
-                existingUser.Hour -= (user.TotalCompletedWork - 160);
+                var calcHours = user.TotalCompletedWork - 160;
+                existingUser.Hour -= calcHours;
+                WorkTimersBuilder.SetRamark(existingUser, calcHours, "Horas removida via sistema", existingUser.Name);
 
                 await _userTimerRepository.UpsertAsync(new UserTimerInformation
                 {
-                    Email = email,
+                    Id = existingUser.Id,
+                    EmailAlternative = emailAlternative,
+                    Email = existingUser.Email,
                     Hour = existingUser.Hour,
                     Name = name,
                     Remarks = existingUser.Remarks

@@ -51,28 +51,32 @@ public sealed class UploadWorkTimerImportedCommandHandler(
 
             foreach (var user in users)
             {
-                var (name, email) = WorkTimersBuilder.ExtractNameAndEmail(user.First().AssignedTo);
+                var (name, emailAlternative) = WorkTimersBuilder.ExtractNameAndEmail(user.First().AssignedTo);
 
-                if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(email))
+                if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(emailAlternative))
                     continue;
 
                 var hour = WorkTimersBuilder.CalculateExtraHours(user);
 
-                var userTimer = await _userTimerRepository.FindByEmailAsync(email);
+                var userTimer = await _userTimerRepository.FindByEmailAlternativeAsync(emailAlternative);
+                var description = $"Horas atualizada via sistema";
 
                 if (userTimer is not null)
                 {
-                    userTimer.Hour += hour;
+                    userTimer.SetRemark(hour, description, name);
                     await _userTimerRepository.UpsertAsync(userTimer);
                 }
                 else
                 {
-                    await _userTimerRepository.AddAsync(new UserTimerInformation
+                    var newUserTimer = new UserTimerInformation
                     {
-                        Email = email,
-                        Hour = hour,
-                        Name = name
-                    });
+                        EmailAlternative = emailAlternative,
+                        Name = name,
+                    };
+
+                    newUserTimer.SetRemark(hour, description, name);
+
+                    await _userTimerRepository.AddAsync(newUserTimer);
                 }
             }
             #endregion
