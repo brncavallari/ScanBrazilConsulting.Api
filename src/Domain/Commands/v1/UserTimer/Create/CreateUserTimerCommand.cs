@@ -14,7 +14,7 @@ public sealed class CreateUserTimerCommand : IRequest
     {
         return new()
         {
-            Id = createUserTimerCommand.Id is not null ? ObjectId.Parse(createUserTimerCommand.Id) : ObjectId.Empty,
+            Id = !string.IsNullOrEmpty(createUserTimerCommand.Id) ? ObjectId.Parse(createUserTimerCommand.Id) : ObjectId.Empty,
             Hour = createUserTimerCommand.Hour,
             Remarks = [],
             Name = createUserTimerCommand.Name,

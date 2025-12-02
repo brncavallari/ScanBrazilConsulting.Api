@@ -50,7 +50,7 @@ public class UserTimerController(
 
     [HttpPost]
     [ProducesResponseType((int)HttpStatusCode.Created)]
-    public async Task<IActionResult> CreateUser([FromBody] CreateUserTimerCommand createUserTimerCommand)
+    public async Task<IActionResult> CreateOrUpdate([FromBody] CreateUserTimerCommand createUserTimerCommand)
     {
         try
         {

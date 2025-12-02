@@ -13,14 +13,13 @@ public sealed class CreateUserTimerCommandHandler(
             if (userTimerInformation.Id != ObjectId.Empty && !string.IsNullOrEmpty(createUserTimerCommand.Remark))
             {
                 var userTimer = await _userTimerRepository.FindByIdAsync(userTimerInformation.Id);
-                
+
                 WorkTimersBuilder.SetRamark(userTimer, createUserTimerCommand.Hour, createUserTimerCommand.Remark, createUserTimerCommand.Name);
                 userTimerInformation.Remarks = userTimer.Remarks;
             }
-            else
+            else if (!string.IsNullOrEmpty(createUserTimerCommand.Remark))
             {
-                userTimerInformation.Remarks = 
-                    WorkTimersBuilder.CreateRemark(createUserTimerCommand.Remark, createUserTimerCommand.Hour, createUserTimerCommand.Name);
+                userTimerInformation.Remarks = WorkTimersBuilder.CreateRemark(createUserTimerCommand.Remark, createUserTimerCommand.Hour, createUserTimerCommand.Name);
             }
 
             var userTimerInfo = _userTimerRepository.CreateOrUpdateAsync(userTimerInformation);
