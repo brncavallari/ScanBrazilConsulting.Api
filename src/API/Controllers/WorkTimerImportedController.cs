@@ -24,7 +24,7 @@ public class WorkTimerImportedController(
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(List<GetAllWorkTimersImportedQueryResponse>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(IEnumerable<GetAllWorkTimersImportedQueryResponse>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetAllWorkTimersImported()
     {
         try
