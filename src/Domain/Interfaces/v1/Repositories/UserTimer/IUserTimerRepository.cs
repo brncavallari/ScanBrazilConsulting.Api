@@ -12,4 +12,5 @@ public interface IUserTimerRepository
     Task<UserTimerInformation> FindByEmailAsync(string email);
     Task<UserTimerInformation> FindByIdAsync(ObjectId id);
     Task CreateOrUpdateAsync(UserTimerInformation id);
+    Task DeleteByIdAsync(ObjectId id);
 }

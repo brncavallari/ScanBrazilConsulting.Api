@@ -1,22 +1,22 @@
 ﻿using Domain.Interfaces.v1.Context;
 using Domain.Interfaces.v1.Repositories.UserTimer;
 
-namespace Domain.Commands.v1.UserTimer.Update;
+namespace Domain.Commands.v1.UserTimer.UpdateHours;
 public sealed class UpdateUserTimerCommandHandler(
     IUserTimerRepository _userTimerRepository,
-    IUserContext _userContext) : IRequestHandler<UpdateUserTimerCommand, Unit>
+    IUserContext _userContext) : IRequestHandler<UpdateHoursCommand, Unit>
 {
-    public async Task<Unit> Handle(UpdateUserTimerCommand updateUserTimerCommand, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(UpdateHoursCommand updateHoursTimerCommand, CancellationToken cancellationToken)
     {
         try
         {
-            var userTimer = await _userTimerRepository.FindByEmailAsync(updateUserTimerCommand.Email);
+            var userTimer = await _userTimerRepository.FindByEmailAsync(updateHoursTimerCommand.Email);
 
             if (userTimer is not null)
             {
                 userTimer.SetRemark(
-                    updateUserTimerCommand.Hour,
-                    updateUserTimerCommand.Remark,
+                    updateHoursTimerCommand.Hour,
+                    updateHoursTimerCommand.Remark,
                     _userContext.UserName ?? string.Empty
                 );
 

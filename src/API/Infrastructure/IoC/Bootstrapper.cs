@@ -37,7 +37,6 @@ public static class Bootstrapper
         {
             typeof(CreateTimeOffCommandHandler).Assembly,
             typeof(UploadWorkTimerImportedCommandHandler).Assembly,
-            typeof(UpdateUserTimerCommandHandler).Assembly,
             typeof(RejectTimeOffCommandHandler).Assembly,
             typeof(ApproveTimeOffCommandHandler).Assembly,
 

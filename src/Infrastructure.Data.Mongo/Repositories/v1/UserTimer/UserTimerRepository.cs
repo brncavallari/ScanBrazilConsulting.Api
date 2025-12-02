@@ -100,9 +100,19 @@ public class UserTimerRepository(
 
         var userTimers = await collection
             .Find(Builders<UserTimerInformation>.Filter.Empty)
+            .SortBy(order => order.Name)
             .ToListAsync();
 
         return userTimers;
+    }
+
+    public async Task DeleteByIdAsync(ObjectId id)
+    {
+        var collection = Database.GetCollection<UserTimerInformation>(_collection);
+
+        var filter = Builders<UserTimerInformation>.Filter.Eq(x => x.Id, id);
+
+        var result = await collection.DeleteOneAsync(filter);
     }
 
     public async Task CreateOrUpdateAsync(UserTimerInformation userTimerInformation)

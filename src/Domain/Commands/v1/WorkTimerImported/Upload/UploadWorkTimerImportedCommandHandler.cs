@@ -63,7 +63,7 @@ public sealed class UploadWorkTimerImportedCommandHandler(
 
                 if (userTimer is not null)
                 {
-                    userTimer.SetRemark(hour, description, name);
+                    userTimer.SetRemark(hour, description, "System");
                     await _userTimerRepository.UpsertAsync(userTimer);
                 }
                 else
@@ -74,7 +74,7 @@ public sealed class UploadWorkTimerImportedCommandHandler(
                         Name = name,
                     };
 
-                    newUserTimer.SetRemark(hour, description, name);
+                    newUserTimer.SetRemark(hour, description, "System");
 
                     await _userTimerRepository.AddAsync(newUserTimer);
                 }

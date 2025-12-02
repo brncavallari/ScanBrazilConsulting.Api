@@ -1,7 +1,6 @@
 ﻿global using API.Filter.v1;
 global using API.Infrastructure.IoC;
 global using CrossCutting.Configuration.AppModels;
-global using Domain.Commands.v1.UserTimer.Update;
 global using Domain.Commands.v1.WorkTimerImported.Delete;
 global using Domain.Commands.v1.WorkTimerImported.Upload;
 global using Infrastructure.Data.Mongo.Repositories.v1.UserTimer;
