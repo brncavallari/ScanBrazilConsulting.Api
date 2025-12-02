@@ -13,11 +13,14 @@ public sealed class UserTimerInformation
 
     [BsonElement("email")]
     public string Email { get; set; }
+    
+    [BsonElement("emailAlternative")]
+    public string EmailAlternative { get; set; }
 
     [BsonElement("remark")]
     public IList<Remark> Remarks { get; set; }
 
-    public void SetUserTimer(
+    public void SetRemark(
         double hour,
         string description,
         string userName)
