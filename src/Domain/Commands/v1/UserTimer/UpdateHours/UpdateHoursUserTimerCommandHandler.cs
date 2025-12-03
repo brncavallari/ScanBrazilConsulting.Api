@@ -4,9 +4,9 @@ using Domain.Interfaces.v1.Repositories.UserTimer;
 namespace Domain.Commands.v1.UserTimer.UpdateHours;
 public sealed class UpdateUserTimerCommandHandler(
     IUserTimerRepository _userTimerRepository,
-    IUserContext _userContext) : IRequestHandler<UpdateHoursCommand, Unit>
+    IUserContext _userContext) : IRequestHandler<UpdateHoursUserTimerCommand, Unit>
 {
-    public async Task<Unit> Handle(UpdateHoursCommand updateHoursTimerCommand, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(UpdateHoursUserTimerCommand updateHoursTimerCommand, CancellationToken cancellationToken)
     {
         try
         {

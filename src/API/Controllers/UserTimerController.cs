@@ -29,7 +29,7 @@ public class UserTimerController(
 
     [HttpPut]
     [ProducesResponseType((int)HttpStatusCode.OK)]
-    public async Task<IActionResult> Update([FromBody] UpdateHoursCommand updateHoursCommand)
+    public async Task<IActionResult> Update([FromBody] UpdateHoursUserTimerCommand updateHoursCommand)
     {
         await _mediator.Send(updateHoursCommand);
         return Ok();
@@ -71,7 +71,7 @@ public class UserTimerController(
     {
         try
         {
-            await _mediator.Send(new DeleteCommand(id));
+            await _mediator.Send(new DeleteUserTimerCommand(id));
             return Ok();
         }
         catch (Exception ex)

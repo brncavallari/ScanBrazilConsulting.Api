@@ -2,9 +2,9 @@ using Domain.Interfaces.v1.Repositories.UserTimer;
 
 namespace Domain.Commands.v1.UserTimer.Delete;
 public sealed class DeleteUserTimerCommandHandler(
-    IUserTimerRepository _userTimerRepository) : IRequestHandler<DeleteCommand>
+    IUserTimerRepository _userTimerRepository) : IRequestHandler<DeleteUserTimerCommand>
 {
-    public async Task Handle(DeleteCommand deleteCommand, CancellationToken cancellationToken)
+    public async Task Handle(DeleteUserTimerCommand deleteCommand, CancellationToken cancellationToken)
     {
         try
         {
