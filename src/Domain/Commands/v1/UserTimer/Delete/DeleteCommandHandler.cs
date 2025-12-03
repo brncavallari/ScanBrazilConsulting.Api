@@ -1,5 +1,4 @@
 using Domain.Interfaces.v1.Repositories.UserTimer;
-using MongoDB.Bson;
 
 namespace Domain.Commands.v1.UserTimer.Delete;
 public sealed class DeleteUserTimerCommandHandler(
@@ -9,7 +8,8 @@ public sealed class DeleteUserTimerCommandHandler(
     {
         try
         {
-            var userInformation = await _userTimerRepository.FindByIdAsync(ObjectId.Parse(deleteCommand.Id));
+            var userInformation = await _userTimerRepository.FindByIdAsync(deleteCommand.Id);
+
             if (userInformation is not null)
                 await _userTimerRepository.DeleteByIdAsync(userInformation.Id);
         }

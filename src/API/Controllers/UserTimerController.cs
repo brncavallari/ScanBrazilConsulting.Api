@@ -1,5 +1,4 @@
-﻿using Domain.Commands.v1.UserTimer.Create;
-using Domain.Commands.v1.UserTimer.CreateOrUpdate;
+﻿using Domain.Commands.v1.UserTimer.CreateOrUpdate;
 using Domain.Commands.v1.UserTimer.Delete;
 using Domain.Commands.v1.UserTimer.UpdateHours;
 using Infrastructure.Data.Query.Queries.v1.UserTimer.GetAllUserTimer;
@@ -66,13 +65,13 @@ public class UserTimerController(
         }
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
-    public async Task<IActionResult> DeleteById([FromBody] DeleteCommand deleteCommand)
+    public async Task<IActionResult> DeleteById(string id)
     {
         try
         {
-            await _mediator.Send(deleteCommand);
+            await _mediator.Send(new DeleteCommand(id));
             return Ok();
         }
         catch (Exception ex)

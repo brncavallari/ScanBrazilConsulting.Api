@@ -45,8 +45,8 @@ public class WorkTimerImportedController(
     {
         try
         {
-            var command = new DeleteWorkTimerImportedCommand { Id = id };
-            var result = await _mediator.Send(command);
+            var command = new DeleteWorkTimerImportedCommand(id);
+            await _mediator.Send(command);
 
             return NoContent();
         }
