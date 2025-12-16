@@ -7,6 +7,7 @@ public sealed class GetAllUserTimerQueryResponse
     public string Id { get; set; }
     public string Name { get; set; }
     public string Email { get; set; }
+    public string EmailAlternative { get; set; }
     public double Hour { get; set; }
     public IEnumerable<Remark> Remarks { get; set; }
 
@@ -19,6 +20,7 @@ public sealed class GetAllUserTimerQueryResponse
             Id = userTimerInformation.Id.ToString(),
             Name = userTimerInformation.Name,
             Email = userTimerInformation.Email,
+            EmailAlternative = userTimerInformation.EmailAlternative,
             Hour = userTimerInformation.Hour,
             Remarks = userTimerInformation.Remarks?.Select(r => new Remark
             {

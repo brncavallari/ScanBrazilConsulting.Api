@@ -143,4 +143,30 @@ public static class WorkTimersBuilder
         return memoryStream;
     }
     #endregion
+
+    #region Validation
+    public static void SetRamark(UserTimerInformation userTimer, double hour, string description, string name)
+    {
+        Remark remark = new() { Value = hour, Description = description, UpdateAt = DateTime.UtcNow, UserName = name };
+
+        if (userTimer.Remarks is null)
+            userTimer.Remarks = [remark];
+        else
+            userTimer.Remarks.Add(remark);
+    }
+
+    public static IList<Remark> CreateRemark(string description, double hour, string name)
+    {
+        var remark = new Remark()
+        {
+            Description = description,
+            Value = hour,
+            UpdateAt = DateTime.UtcNow,
+            UserName = name
+        };
+
+        return [remark];
+    }
+    #endregion
+
 }

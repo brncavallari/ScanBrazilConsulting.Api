@@ -1,14 +1,15 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using Domain.Interfaces.v1.Repositories.UserTimer;
+using Infrastructure.Service.Services.Microsoft;
+using Microsoft.Extensions.Caching.Memory;
 using System.Text.Json;
 
 namespace API.Filter.v1;
 public class TokenValidationMiddleware(
-    RequestDelegate next,
-    IMicrosoftServiceClient microsoftServiceClient,
+    RequestDelegate _next,
+    IMicrosoftServiceClient _microsoftServiceClient,
+    IUserTimerRepository _userTimerRepository,
     IMemoryCache _cache)
 {
-    private readonly RequestDelegate _next = next;
-    private readonly IMicrosoftServiceClient _microsoftServiceClient = microsoftServiceClient;
 
     public async Task InvokeAsync(HttpContext context)
     {
@@ -28,9 +29,16 @@ public class TokenValidationMiddleware(
 
                     if (!_cache.TryGetValue(cacheKey, out MicrosoftServiceResponse userInfo))
                     {
-                        
                         userInfo = await _microsoftServiceClient.GetUserInformationAsync(
                             new MicrosoftServiceRequest(token));
+
+                        var userTimerInfo = await _userTimerRepository.FindByEmailAlternativeAsync(userInfo.EmailAlternative);
+                        
+                        if (userTimerInfo is not null && userTimerInfo?.Email != userInfo?.Email)
+                        {
+                            userTimerInfo.Email = userInfo.Email;
+                            await _userTimerRepository.UpdateAsync(userTimerInfo);
+                        }
 
                         var cacheOptions = new MemoryCacheEntryOptions()
                             .SetSlidingExpiration(TimeSpan.FromMinutes(15))
@@ -41,8 +49,10 @@ public class TokenValidationMiddleware(
 
                     var identity = new ClaimsIdentity(JwtBearerDefaults.AuthenticationScheme);
 
+                    if (!string.IsNullOrEmpty(userInfo.EmailAlternative))
+                        identity.AddClaim(new Claim(ClaimTypes.Email, userInfo.EmailAlternative));
                     if (!string.IsNullOrEmpty(userInfo.Email))
-                        identity.AddClaim(new Claim(ClaimTypes.Email, userInfo.Email));
+                        identity.AddClaim(new Claim(ClaimTypes.Upn, userInfo.Email));
                     if (!string.IsNullOrEmpty(userInfo.Name))
                         identity.AddClaim(new Claim(ClaimTypes.Name, userInfo.Name));
                     if (!string.IsNullOrEmpty(userInfo.Job))

@@ -24,7 +24,7 @@ public class WorkTimerImportedController(
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(List<GetAllWorkTimersImportedQueryResponse>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(IEnumerable<GetAllWorkTimersImportedQueryResponse>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetAllWorkTimersImported()
     {
         try
@@ -45,8 +45,8 @@ public class WorkTimerImportedController(
     {
         try
         {
-            var command = new DeleteWorkTimerImportedCommand { Id = id };
-            var result = await _mediator.Send(command);
+            var command = new DeleteWorkTimerImportedCommand(id);
+            await _mediator.Send(command);
 
             return NoContent();
         }

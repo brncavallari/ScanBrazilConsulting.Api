@@ -1,6 +1,7 @@
 ﻿using Domain.Entities.MongoDb.v1.UserTimer;
 using Domain.Interfaces.v1.Repositories.UserTimer;
 using Infrastructure.Data.Mongo.Repositories.v1.Base;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Infrastructure.Data.Mongo.Repositories.v1.UserTimer;
@@ -10,14 +11,14 @@ public class UserTimerRepository(
     ) : MongoDbBaseRepository<UserTimerInformation>(collectionName), IUserTimerRepository
 {
     private readonly string _collection = collectionName;
-    public async Task InsertUserTimerAsync(
+    public async Task AddAsync(
         UserTimerInformation userInformation)
     {
         var collection = Database.GetCollection<UserTimerInformation>(_collection);
         await collection.InsertOneAsync(userInformation);
     }
 
-    public async Task UpdateUserTimerAsync(
+    public async Task UpdateAsync(
         UserTimerInformation userInformation)
     {
         var collection = Database.GetCollection<UserTimerInformation>(_collection);
@@ -26,16 +27,17 @@ public class UserTimerRepository(
         await collection.ReplaceOneAsync(filter, userInformation);
     }
 
-    public async Task<UserTimerInformation> FindEmailAsync(
-        string email)
+    public async Task<UserTimerInformation> FindByEmailAlternativeAsync(
+        string emailAlternative)
     {
         var collection = Database.GetCollection<UserTimerInformation>(_collection);
 
-        var filter = Builders<UserTimerInformation>.Filter.Eq(x => x.Email, email);
+        var filter = Builders<UserTimerInformation>.Filter.Eq(x => x.EmailAlternative, emailAlternative);
 
         var projection = Builders<UserTimerInformation>.Projection
             .Slice(x => x.Remarks, 5)
             .Include(x => x.Remarks)
+            .Include(x => x.EmailAlternative)
             .Include(x => x.Email)
             .Include(x => x.Name)
             .Include(x => x.Hour);
@@ -51,7 +53,33 @@ public class UserTimerRepository(
         return result;
     }
 
-    public async Task UpsertUserTimerAsync(
+    public async Task<UserTimerInformation> FindByEmailAsync(
+        string email)
+    {
+        var collection = Database.GetCollection<UserTimerInformation>(_collection);
+
+        var filter = Builders<UserTimerInformation>.Filter.Eq(x => x.Email, email);
+
+        var result =(await collection
+            .FindAsync(filter)).FirstOrDefaultAsync();
+
+        return await result;
+    }
+
+    public async Task<UserTimerInformation> FindByIdAsync(
+        ObjectId id)
+    {
+        var collection = Database.GetCollection<UserTimerInformation>(_collection);
+
+        var filter = Builders<UserTimerInformation>.Filter.Eq(x => x.Id, id);
+
+        var result =(await collection
+            .FindAsync(filter)).FirstOrDefaultAsync();
+
+        return await result;
+    }
+
+    public async Task UpsertAsync(
         UserTimerInformation userTimerInformation)
     {
         var collection = Database.GetCollection<UserTimerInformation>(_collection);
@@ -66,14 +94,42 @@ public class UserTimerRepository(
         await collection.UpdateOneAsync(filter, updateSet);
     }
 
-    public async Task<IEnumerable<UserTimerInformation>> FindAllUserInformationAsync()
+    public async Task<IEnumerable<UserTimerInformation>> FindAllAsync()
     {
         var collection = Database.GetCollection<UserTimerInformation>(_collection);
 
         var userTimers = await collection
             .Find(Builders<UserTimerInformation>.Filter.Empty)
+            .SortBy(order => order.Name)
             .ToListAsync();
 
         return userTimers;
+    }
+
+    public async Task DeleteByIdAsync(ObjectId id)
+    {
+        var collection = Database.GetCollection<UserTimerInformation>(_collection);
+
+        var filter = Builders<UserTimerInformation>.Filter.Eq(x => x.Id, id);
+
+        var result = await collection.DeleteOneAsync(filter);
+    }
+
+    public async Task CreateOrUpdateAsync(UserTimerInformation userTimerInformation)
+    {
+        var collection = Database.GetCollection<UserTimerInformation>(_collection);
+
+        var filter = Builders<UserTimerInformation>.Filter.Eq(x => x.Id, userTimerInformation.Id);
+
+        var existingUserTimer = await collection.Find(filter).FirstOrDefaultAsync();
+
+        if (existingUserTimer != null)
+        {
+            await collection.ReplaceOneAsync(filter, userTimerInformation);
+        }
+        else
+        {
+            await collection.InsertOneAsync(userTimerInformation);
+        }
     }
 }

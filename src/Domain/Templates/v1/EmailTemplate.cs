@@ -1,13 +1,13 @@
 ﻿using Domain.Commands.v1.TimeOff.Create;
 using Domain.Commands.v1.TimeOff.Reject;
 
-namespace Domain.Constants.v1;
-public static class EmailConstant
+namespace Domain.Templates.v1;
+public static class EmailTemplate
 {
     public static readonly string Subject = "Solicitação de Folga - Scan Brazil Consulting";
     public static readonly string SubjectRejected = "Solicitação de Folga - [Negado]";
     public static readonly string SubjectApproved = "Solicitação de Folga - [Aprovado]";
-    public static string TimeOffTemplate(
+    public static string TimeOff(
         CreateTimeOffCommand createTimeOffCommand,
         string protocol)
     {
@@ -135,7 +135,7 @@ public static class EmailConstant
                 </html>";
     }
 
-    public static string TimeOffTemplateRejected(
+    public static string Rejected(
         RejectTimeOffCommand rejectTimeOffCommand,
         string approver)
     {
@@ -272,7 +272,7 @@ public static class EmailConstant
         return htmlContent;
     }
 
-    public static string TimeOffTemplateApproved(
+    public static string Approved(
            string protocol,
            string approver)
     {

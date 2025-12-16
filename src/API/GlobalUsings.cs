@@ -1,14 +1,12 @@
 ﻿global using API.Filter.v1;
 global using API.Infrastructure.IoC;
 global using CrossCutting.Configuration.AppModels;
-global using Domain.Commands.v1.UserTimer.Update;
 global using Domain.Commands.v1.WorkTimerImported.Delete;
 global using Domain.Commands.v1.WorkTimerImported.Upload;
 global using Infrastructure.Data.Mongo.Repositories.v1.UserTimer;
 global using Infrastructure.Data.Mongo.Repositories.v1.WorkTimer;
 global using Infrastructure.Data.Mongo.Repositories.v1.WorkTimerImported;
 global using Infrastructure.Data.Service.Interfaces.v1.Microsoft;
-global using Infrastructure.Data.Service.ServiceHandlers.v1.Microsoft;
 global using Infrastructure.Data.Service.Services.Microsoft;
 global using MediatR;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;

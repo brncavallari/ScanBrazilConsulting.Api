@@ -1,17 +1,15 @@
 ﻿using Infrastructure.Data.Service.Interfaces.v1.Microsoft;
 using Infrastructure.Data.Service.Services.Microsoft;
+using Infrastructure.Service.Services.Microsoft;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
-namespace Infrastructure.Data.Service.ServiceHandlers.v1.Microsoft;
-
+namespace Infrastructure.Service.ServiceHandlers.v1.Microsoft;
 public class MicrosoftServiceClient : IMicrosoftServiceClient
 {
     private readonly HttpClient _httpClient;
-
     private const string ApiBaseUrl = "https://graph.microsoft.com/";
-
     public MicrosoftServiceClient(HttpClient httpClient)
     {
         _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));

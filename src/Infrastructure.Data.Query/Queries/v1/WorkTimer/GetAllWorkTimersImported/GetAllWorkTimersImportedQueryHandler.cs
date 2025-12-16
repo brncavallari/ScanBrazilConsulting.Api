@@ -2,7 +2,6 @@
 using MediatR;
 
 namespace Infrastructure.Data.Query.Queries.v1.WorkTimer.GetAllWorkTimersImported;
-
 public class GetAllWorkTimersImportedQueryHandler(
     IWorkTimerImportedRepository _workTimerImportedRepository
     ) : IRequestHandler<GetAllWorkTimersImportedQuery, List<GetAllWorkTimersImportedQueryResponse>>
@@ -11,13 +10,14 @@ public class GetAllWorkTimersImportedQueryHandler(
     {
         try
         {
-            var workTimersImported = await _workTimerImportedRepository.FindAllWorkTimersImportedAsync();
+            var workTimersInformation = await _workTimerImportedRepository.FindAllAsync();
 
-            if (workTimersImported is null || workTimersImported.Count == 0)  return [];
+            if (workTimersInformation is null || workTimersInformation.Count == 0)  return [];
 
-            var responses = GetAllWorkTimersImportedQueryResponse.FromEntityList(workTimersImported);
+            var workTimersImportedResponse = GetAllWorkTimersImportedQueryResponse.Map(
+                workTimersInformation);
 
-            return responses;
+            return workTimersImportedResponse;
         }
         catch (Exception ex)
         {
