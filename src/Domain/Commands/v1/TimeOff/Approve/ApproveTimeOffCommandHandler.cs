@@ -23,6 +23,12 @@ public sealed class ApproveTimeOffCommandHandler(
             userTimer.Subtract(
                 timeOff.Hour);
 
+            userTimer.SetRemark(
+                userTimer.Hour - timeOff.Hour,
+                approveTimeOffCommand.Description,
+                "System"
+            );
+
             await _userTimerRepository.UpdateAsync(
                 userTimer);
 

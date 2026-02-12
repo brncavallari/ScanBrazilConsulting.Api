@@ -9,7 +9,8 @@ public static class EmailTemplate
     public static readonly string SubjectApproved = "Solicitação de Folga - [Aprovado]";
     public static string TimeOff(
         CreateTimeOffCommand createTimeOffCommand,
-        string protocol)
+        string protocol,
+        string urlRedirect)
     {
         return $@"<!DOCTYPE html>
                 <html lang=""pt-BR"">
@@ -97,7 +98,7 @@ public static class EmailTemplate
                                                <table border=""0"" cellpadding=""0"" cellspacing=""0"" align=""center"">
                                                    <tr>
                                                        <td align=""center"" style=""border-radius: 8px; background-color: #667eea;"">
-                                                           <a href=""{$"http://localhost:5173/worktimer/approve/detail/{protocol}"}"" target=""_blank"" 
+                                                           <a href=""{$"{urlRedirect}/worktimer/approve/detail/{protocol}"}"" target=""_blank"" 
                                                                class=""cta-button""
                                                                style=""display: inline-block; 
                                                                        padding: 14px 32px;

@@ -23,4 +23,6 @@ public sealed class EmailSettings
     public string Approver { get; set; }
     [JsonPropertyName("cc")]
     public IEnumerable<string> Cc { get; set; }
+    [JsonPropertyName("urlRedirect")]
+    public string UrlRedirect { get; set; }
 }

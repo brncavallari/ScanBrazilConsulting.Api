@@ -23,7 +23,8 @@ public sealed class CreateTimeOffCommandHandler(
 
             var body = EmailTemplate.TimeOff(
                 createTimeOffCommand,
-                timeOffInformation.Protocol
+                timeOffInformation.Protocol,
+                _emailSettings.UrlRedirect
             );
 
             await _smtpServiceClient.SendEmailAsync(
